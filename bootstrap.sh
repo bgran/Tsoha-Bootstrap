@@ -1,4 +1,5 @@
 #!/bin/bash
+# Tata ei tarvita
 
 source config/environment.sh
 
