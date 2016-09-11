@@ -2,8 +2,8 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://brute.havoc.fi:8800/tsoha/)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* [Sovellus](http://brute.havoc.fi:8800/tsoha/)
+* [Dokumentaatio](https://github.com/bgran/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
 
