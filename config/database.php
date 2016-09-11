@@ -9,7 +9,13 @@
     // ja SALASANA-kohtaan (tietokantasi pääkäyttäjän salasana)
     private static $connection_config = array(
       'psql' => array(
-        'resource' => 'pgsql:'
+	// tosta pois :
+        'resource' => 'pgsql:',
+	'hostname' => 'localhost',
+	'username' => '',
+	'password' => '',
+	'dbname' => 'testi',
+	'port' => 5432
       ),
       'mysql' => array(
         'resource' => 'mysql:unix_socket=/home/KAYTTAJATUNNUS/mysql/socket;dbname=mysql',

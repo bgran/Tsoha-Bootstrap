@@ -1,9 +1,10 @@
 <?php
 
   $routes->get('/', function() {
-    HelloWorldController::index();
+    PizzaController::index();
   });
 
   $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
   });
+?>

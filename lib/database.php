@@ -6,11 +6,22 @@
         // Haetaan tietokantakonfiguraatio
         $connection_config = DatabaseConfig::connection_config();
         $config = $connection_config['config'];
+	//$config['resource'] = "pgsql:";
+	//$config['database'] = "testi";
+	$config['username'] = "";
+	$config['password'] = "";
+	//foreach ($config as $key => $value) {
+	//	print "$key: $value";
+	///	print "<br>";
+	//}
+	//$dsn = "pgsql:host=localhost;dbname=testi";
+	$dsn = "pgsql:host=localhost;dbname=testi;user=;password=";
 
         try {
             // Alustetaan PDO
             if(isset($config['username'])){
-              $connection = new PDO($config['resource'], $config['username'], $config['password']);
+              //$connection = new PDO($config['resource'], $config['username'], $config['password']);
+		$connection = new PDO($dsn, '', '');
             }else{
               $connection = new PDO($config['resource']);
             }

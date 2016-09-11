@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>Tervetuloa Pizza-Palveluun!</h1>
+  </div>
+
+  <p>
+	Tahan tulee tietokantastubi.
+	Kello on PostgreSQL:n mielesta: {{ now }} <br><br>
+	<ol>
+	{% for pizza in pizzas %}
+		<li>
+		{{ pizza }}
+		</li>
+	{% else %}
+		ei mitaan loydetty kannansta
+	{% endfor %}
+	</ol>
+	
+  </p>
+{% endblock %}

@@ -2,7 +2,7 @@
 
   class View{
 
-    public static function make($view, $content = array()){
+    public static function make($view, $content = array(), $additionalstuff = array()) {
       // Alustetaan Twig
       $twig = self::get_twig();
 
