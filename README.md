@@ -7,4 +7,4 @@ Yleisiä linkkejä:
 
 ## Työn aihe
 
-[Pizza-palvelu](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pizzapalvelu.html) 
+[Pizza-palvelu IS97HL5](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pizzapalvelu.html) 
