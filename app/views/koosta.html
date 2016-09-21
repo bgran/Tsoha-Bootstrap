@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun menu:
+
+<p>
+	Luo uusi pizza:
+	<form method="POST" action="/tsoha/op_uusipizza">
+
+	<input type=text width="60" name="a_pizzaname"><br/>
+	Lisukkeet:
+	<ol>
+		{% for l in lisukkeet %}
+			<li> <input type="radio" name="a_lisuke_{{ l['id'] }}"> {{ l['lisuke_nimi'] }} ({{ l['lisuke_hinta'] }}) </li>
+		{% else %}
+			Lisukkeita ei ole kannassa.
+		{% endfor %}
+
+	</ol>
+	Tee uusi pizza: <input type="submit" value="uusi pizza">
+	</form>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / Koosta uusi pizza
+{% endblock %}
+

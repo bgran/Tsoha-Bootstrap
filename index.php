@@ -28,14 +28,24 @@
   // Otetaan Composer käyttöön
   require 'vendor/autoload.php';
 
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+use \Slim\App;
+
+
   $routes = new \Slim\Slim();
   $routes->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware);
 
-  $routes->get('/tietokantayhteys', function(){
-    DB::test_connection();
-  });
+	$request = $routes->request;
+
+  //$routes->get('/tietokantayhteys', function(){
+   // DB::test_connection();
+  //});
 
   // Otetaan reitit käyttöön
   require 'config/routes.php';
 
+
+
   $routes->run();
+?>

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun sivut
+
+<p>
+	Lisaa uusi lisuke:
+	<form method="POST" action="/tsoha/op_uusilisuke">
+
+	<input type=text width="60" name="a_lisukename"><br/>
+	<input type="text" width="60" name="a_lisukehinta"><br/>
+	Lisaa uusi lisuke: <input type="submit" value="uusi lisuke">
+	</form>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / Lisaa lisuke
+{% endblock %}
+

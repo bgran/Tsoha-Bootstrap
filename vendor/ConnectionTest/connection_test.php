@@ -10,8 +10,11 @@
 
 $connection_config = DatabaseConfig::connection_config();
 
+//$conn = DB::connection();
+
 function getDatabase() {
-  return DB::connection();
+  $conn = DB::connection();
+  return $conn;
 }
 function getObjects() {
   $args = func_get_args();

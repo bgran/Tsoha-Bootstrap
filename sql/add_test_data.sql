@@ -1,10 +1,16 @@
 -- Lisää INSERT INTO lauseet tähän tiedostoon
-insert into pizzas (pizza_name) VALUES('Taxis Special');
-insert into pizzas (pizza_name) VALUES('Kebab pizza');
-insert into pizzas (pizza_name) VALUES('Vesuvio');
-insert into pizzas (pizza_name) VALUES('Lihamonisteri');
-insert into pizzas (pizza_name) VALUES('Americana');
-insert into pizzas (pizza_name) VALUES('Quattro Stagioni');
-insert into pizzas (pizza_name) VALUES('Hawai Special');
-insert into pizzas (pizza_name) VALUES('Oma Valinta');
+
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('kurkku', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('paprika', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('mozzarella', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('pepperoni', 2);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('kana', 2);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('homejuusto', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('katkarapu', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('tuplajuusto', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('kinkku', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('kebabliha', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('ananas', 1);
+INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('pekoni', 1);
+
 
