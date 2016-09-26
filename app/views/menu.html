@@ -7,7 +7,7 @@
 <p>
 	{% for p in pizza_data %}
 <p>
-		<h3>{{ p[0]['pizza_name'] }}</h3>
+		<h3>{{ p[0]['pizza_name'] }}</h3> (<a href="/tsoha/menu/{{ p[0]['sid'] }}">lisatiedot</a>).<br/>
 		Sisaltaa:<br/>
 		{% for g in p %}
 			<!--{{ g['pizza_name'] }}: -->{{ g['lisuke_nimi'] }} <br>
@@ -18,7 +18,7 @@
 		
 
 	{% endfor %}
-	
+	<a href="/tsoha/">Siirry takaisin etusivulle</a>
 
 {% endblock %}
 
