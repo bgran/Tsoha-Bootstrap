@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun menu:
+
+
+<p>
+	{% for p in pizza_data %}
+<p>
+		<h3>{{ p[0]['pizza_name'] }}</h3>
+		Sisaltaa:<br/>
+		{% for g in p %}
+			<!--{{ g['pizza_name'] }}: -->{{ g['lisuke_nimi'] }} <br>
+
+		{% endfor %}
+		<!-- sid, lid, lisuke_nimi, lisuke_hinta, pizza_name -->
+		<!--{{ p['pizza_name'] }}: {{ p['lisuke_nimi'] }}-->
+		
+
+	{% endfor %}
+	<a href="/tsoha/menu">Siirry takaisin menuseen</a>	
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / menu
+{% endblock %}
+
