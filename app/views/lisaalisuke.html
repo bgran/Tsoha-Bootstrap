@@ -4,13 +4,24 @@
 <p>Pizzapalvelun sivut
 
 <p>
+{% if user.is_admin %}
 	Lisaa uusi lisuke:
 	<form method="POST" action="/tsoha/lisuke/add">
 
-	<input type=text width="60" name="a_lisukename"><br/>
-	<input type="text" width="60" name="a_lisukehinta"><br/>
+	Lisukkeen nimi: <input type=text width="60" name="a_lisukename"><br/>
+	Lisukeken hinta: <select name="a_lisukehinta">
+		<option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+		</select>
+		<!--<input type="text" width="60" name="a_lisukehinta">--><br/>
 	Lisaa uusi lisuke: <input type="submit" value="uusi lisuke">
 	</form>
+{% else %}
+	Kayttajaoikeudet eivat riita.
+{% endif %}
 
 {% endblock %}
 

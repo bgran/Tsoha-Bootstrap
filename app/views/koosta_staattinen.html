@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- filename: koosta.html -->
+<!-- filename: koosta_staattinen.html -->
 <p>Pizzapalvelun menu:
 
 <p>
 	Luo uusi pizza:
-	<form method="POST" action="/tsoha/menu/add_anon">
+	<form method="POST" action="/tsoha/menu/add">
+
+	<input type=text width="60" name="a_pizzaname"><br/>
 	Lisukkeet:
 	<ol>
 		{% for l in lisukkeet %}

@@ -1,11 +1,59 @@
 <?php
 
-class Pizza extends BaseModel {
+class User extends BaseModel {
 
-	public $name, $price;
+	public $username;
+	public $password;
+	public $is_admin;
+
+	private $token = null;
 	public function __construct($attributes = null) {
                 parent::__construct($attributes);
+		//$this->token = $attributes['token'];
         }       	
+
+	public function is_valid() {
+		/*$db = DB::connection();
+		$sql = "SELECT hashval,creation_time+INTERVAL '15 minutes' FROM user_tokens";
+		foreach($db->query($sql) as $row) {
+			$db_hash = $row[0];
+			$db_timer = $row[1];
+			
+		}*/
+		if ($_SESSION["auth"] = "admin") {
+			print "ADMIN LOGIN";
+			$this->is_admin = true;
+			return true;
+		} else {
+			print "EI ADMIN LOGIN";
+			return false;
+		}
+		$sessid = session_id();
+		print "sessid: $sessid<br><br>";
+		if ($sessid == "") {
+			return false;
+		} else {
+			return true;
+		}
+
+
+		if (!defined("_SESSION")) {
+			print "ei sessiota";
+			return false;
+		}
+
+		
+		
+		print "$_SESSION";
+		if ($_SESSION) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function feed($params) {
+	}
 
 	public static function all() {
 		$db = DB::connection();
@@ -35,6 +83,34 @@ class Pizza extends BaseModel {
 			
 	}
 
+	public function populate_user_from_db($username) {
+		print "POPULATING stuff man";
+		$db = DB::connection();
+		
+		$sql = "SELECT id,username,phash FROM users ORDER BY id";
+		foreach ($db->query ($sql) as $row) {
+			print "row[username]: " . $row["username"];
+			if ($username == $row['username']) {
+			
+				$this->userid = $row['id'];
+				$this->username = $row['username'];
+				$this->password = $row['phash'];
+				if ($row['username'] == "admin") {
+					$this->is_admin = true;
+				} else {
+					$this->is_admin = false;
+				}
+
+				return;
+			}
+
+		}
+		print "FALLBVACK";
+		$this->userid = -1;
+		$this->username = 'anon';
+		$this->password = '';
+		$this->is_admin = false;
+	}
 
 	public static function add($res) {
         	$db = DB::connection();
@@ -49,7 +125,7 @@ class Pizza extends BaseModel {
                         $new_pizza = $row[0];
                         break;
                 }
-                //print "<h1>$new_pizza</h1><br><br>";
+                print "<h1>$new_pizza</h1><br><br>";
                 //$new_pizza = $s_v[0];
 
                 $a_pizzaname = $res->request->post('a_pizzaname');
@@ -70,7 +146,7 @@ class Pizza extends BaseModel {
                        $num_id = $row[0];
                        break;
                  }
-                 //print "num_id: " . $num_id . "<br>";
+                 print "num_id: " . $num_id . "<br>";
 
                  for ($i= 0; $i<$num_id ;$i++) {
                  	$tmp = $res->request->post('a_lisuke_'.$i);

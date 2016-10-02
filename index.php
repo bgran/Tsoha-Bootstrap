@@ -17,10 +17,18 @@
   // Määritetään sovelluksen juuripolulle vakio BASE_PATH
   define('BASE_PATH', '/' . $base_folder);
 
-  // Luodaan uusi tai palautetaan olemassaoleva sessio
-  if(session_id() == '') {
-    session_start();
+
+  if (session_id() == '') {
+	session_start(['cookie_lifetime' => 86400]);
   }
+
+
+  // Luodaan uusi tai palautetaan olemassaoleva sessio
+ // if(session_id() == '') {
+ //   session_start();
+ // }
+  // Login handling.
+  //$g_user = new User(array());
 
   // Asetetaan vastauksen Content-Type-otsake, jotta ääkköset näkyvät normaalisti
   header('Content-Type: text/html; charset=utf-8');
@@ -31,6 +39,9 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Slim\App;
+
+  $g_user = new User(array());
+
 
 
   $routes = new \Slim\Slim();

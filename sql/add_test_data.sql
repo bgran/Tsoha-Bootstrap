@@ -14,3 +14,4 @@ INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('ananas', 1);
 INSERT INTO lisukkeet (lisuke_nimi, lisuke_hinta) VALUES('pekoni', 1);
 
 
+INSERT INTO users (username, phash) VALUES('admin', 'foobar');

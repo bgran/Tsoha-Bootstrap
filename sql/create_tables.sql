@@ -14,4 +14,24 @@ CREATE TABLE staattiset_pizzat (
 	pizza_name	VARCHAR(255) UNIQUE
 );
 
+CREATE SEQUENCE user_id_seq;
+CREATE TABLE users (
+	id		INT PRIMARY KEY DEFAULT nextval('user_id_seq'),
+	username	VARCHAR(25) UNIQUE NOT NULL,
+	phash		VARCHAR(66) NOT NULL -- SALT(2) + sha256 of the (salt CONCAT password) 
+);
+
+--CREATE TABLE user_tokens (
+--	hashval		VARCHAR(64) NOT NULL, -- 
+--	creation_time	TIMESTAMP NOT NULL DEFAULT now()
+--);
+
+--CREATE SEQUENCE temp_pizza_id_seq;
+CREATE TABLE temp_pizza (
+	id		VARCHAR(50) PRIMARY KEY
+);
+CREATE TABLE a_ll (
+        temp_id        	VARCHAR(50),
+        lisukkeen_id    INT
+);
 

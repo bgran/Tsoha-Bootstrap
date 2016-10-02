@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun login:
+<p>
+<form method="POST" action="/tsoha/login/doit">
+Kayttajanimi: <input type="text" value="" name="a_username"><br/>
+Salasana: <input type="password" value="" name="a_password"><br/>
+<input type="submit" value="Kirjaudu sisaan">
+</form>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / menu
+{% endblock %}
+

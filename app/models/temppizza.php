@@ -1,11 +1,57 @@
 <?php
 
-class Pizza extends BaseModel {
+class TempPizza extends BaseModel {
 
-	public $name, $price;
+	public $exists = false;
+	public $lisukkeet = array();
+	private $token = null;
 	public function __construct($attributes = null) {
                 parent::__construct($attributes);
+		//$this->token = $attributes['token'];
         }       	
+
+	public function is_valid() {
+		/*$db = DB::connection();
+		$sql = "SELECT hashval,creation_time+INTERVAL '15 minutes' FROM user_tokens";
+		foreach($db->query($sql) as $row) {
+			$db_hash = $row[0];
+			$db_timer = $row[1];
+			
+		}*/
+		if ($_SESSION["auth"] = "admin") {
+			print "ADMIN LOGIN";
+			$this->is_admin = true;
+			return true;
+		} else {
+			print "EI ADMIN LOGIN";
+			return false;
+		}
+		$sessid = session_id();
+		print "sessid: $sessid<br><br>";
+		if ($sessid == "") {
+			return false;
+		} else {
+			return true;
+		}
+
+
+		if (!defined("_SESSION")) {
+			print "ei sessiota";
+			return false;
+		}
+
+		
+		
+		print "$_SESSION";
+		if ($_SESSION) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function feed($params) {
+	}
 
 	public static function all() {
 		$db = DB::connection();
@@ -35,33 +81,56 @@ class Pizza extends BaseModel {
 			
 	}
 
+	public function del_anon_pizza() {
+		print "HAUKDIDDDD";
+		$db = DB::connection();
+		$sid = session_id();
+		$sql = "DELETE FROM temp_pizza WHERE id='". $sid ."'";
+		$st = $db->prepare($sql);
+		$st->execute(/*array("ses" => $sid)*/);
 
-	public static function add($res) {
+		$sql = "DELETE FROM a_ll WHERE temp_id='". $sid ."'";
+		print "sql: $sql";
+                $st = $db->prepare($sql);
+                $st->execute(/*array("ses" => $sid)*/);
+	}
+
+	public function populate_from_db($session) {
+		$db = DB::connection();
+		$sql = "SELECT lisukkeet.id,lisuke_nimi,lisuke_hinta FROM lisukkeet,a_ll,temp_pizza WHERE temp_pizza.id=temp_id AND lisukkeet.id=lisukkeen_id AND temp_id=:session";
+		$st = $db->prepare($sql);
+                $st->execute(array("session" => session_id()));
+		$lisurit = $st->fetchAll();
+		
+		foreach($lisurit as $row) {
+			$this->lisukkeet[] = $row;
+		}
+	}		
+
+	public function add($res) {
         	$db = DB::connection();
                 //$p = tPizzaController::get_pizzas($db);
                 //$now = tPizzaController::get_now($db);
 
                 $db->beginTransaction();
 
-                $s_id = "SELECT nextval('staattiset_pizzat_id_seq')";
-                $new_pizza = -1;
-                foreach($db->query($s_id) as $row) {
-                        $new_pizza = $row[0];
-                        break;
-                }
-                //print "<h1>$new_pizza</h1><br><br>";
-                //$new_pizza = $s_v[0];
-
-                $a_pizzaname = $res->request->post('a_pizzaname');
-                print "a_pizzaname: " . $a_pizzaname;
-
-                $s_pizza = "INSERT INTO staattiset_pizzat (id, pizza_name) VALUES(:id, :pizza_name)"; //, $a_pizzaname)";
-                $st = $db->prepare($s_pizza);
+		//
+		// First get rid of old temp pizza		
+		//
+		$sql = "DELETE FROM temp_pizza WHERE id=:session";
+		$st = $db->prepare($sql);
+		$st->execute(array(
+			"session" => session_id()));
+		$sql = "DELETE FROM a_ll WHERE temp_id=:temp_id";
+		$st = $db->prepare($sql);
                 $st->execute(array(
- 	               "id" => $new_pizza,
-                       "pizza_name" => $a_pizzaname));
-                        
+                        "temp_id" => session_id()));
 
+		// Then add new temp pizza:
+		$sql = "INSERT INTO temp_pizza(id) VALUES(:id)";
+		$st = $db->prepare($sql);
+		$st->execute(array("id" => session_id()));
+		
                 $vals = array();
 
                 $num_id = 0;
@@ -70,18 +139,18 @@ class Pizza extends BaseModel {
                        $num_id = $row[0];
                        break;
                  }
-                 //print "num_id: " . $num_id . "<br>";
+                // print "num_id: " . $num_id . "<br>";
 
                  for ($i= 0; $i<$num_id ;$i++) {
                  	$tmp = $res->request->post('a_lisuke_'.$i);
                         if ($tmp == null) continue;
                         else {
                   	      // $i points to 
-                              $s_pizza = "INSERT INTO s_ll (pizza_id, lisukkeen_id) VALUES(:pizza_id, :lisukkeen_id)";
+                              $s_pizza = "INSERT INTO a_ll (temp_id, lisukkeen_id) VALUES(:pizza_id, :lisukkeen_id)";
                               $st = $db->prepare($s_pizza);   
                               $st->execute(array(
-                              "pizza_id" => $new_pizza,
-                              "lisukkeen_id" => $i));
+                             	"pizza_id" => session_id(),
+                              	"lisukkeen_id" => $i));
                         }
 		}
 

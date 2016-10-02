@@ -1,28 +1,27 @@
 <?php
 class LisukeController extends BaseController {
-	public static function dfdfpizzas() {
-		$pizzas = array();
-		$pizzas = Pizza::get_pizzas_id();
-		$lisuke = Lisuke::all();
-		View::make('uusmenu.html', array('pizza_data'=>$pizzas,
-			'lisuke'=>$lisuke));
-	}
 
 	public static function add($res) {
-		$a_pizzaname = $res->request->post('a_pizzaname');
-		Lisuke::add($res);
-		$res->redirect('/tsoha/menu');
-	}
-	public static function pizzasdsd($numero) {
-		$pizza_data = Pizza::pizza_numero($numero);
-		View::make('naytaid.html',
-			array('pizza_data'=>$pizza_data));
+		$params = array();
+		$params['lisukename'] = $res->request->post('a_lisukename');
+		$params['lisukehinta'] = $res->request->post('a_lisukehinta');
+		$lisuke = new Lisuke($params, $res);
+		$lisuke->add();
+		//$res->redirect('/tsoha/menu');
 
+		$pizzas = Pizza::get_pizzas_id();
+		$lisuke = Lisuke::all();
+		View::make('uusmenu.html', array(
+			"pizza_data" => $pizzas,
+			"lisuke" => $lisuke,
+			"user"=>LisukeController::s_auth()));
 	}
 
 	public static function add_templ() {
 		$data = Lisuke::get();
-		View::make('lisaalisuke.html', array('lisukkeet' => $data));
+		View::make('lisaalisuke.html', array(
+			'lisukkeet' => $data,
+			"user"=>LisukeController::s_auth()));
 	}
 
 

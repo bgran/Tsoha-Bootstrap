@@ -3,11 +3,23 @@
 {% block content %}
 <p>Pizzapalvelun menu:
 
+<p>Oma pizzasi:
+<ol>
+{% for t in tmp %}
+	<li>{{t['lisuke_nimi']}} </li>
+{% endfor %}
+</ol>
+<form action="/tsoha/menu/del_anon" method="POST">
+<input type="hidden" value="kala" name="kalaa">
+<input type="submit" value="Poista pizza">
+</form>
 
+<hr>
+Valmiit pizzat:
 <p>
 	{% for p in pizza_data %}
 <p>
-		<h3>{{ p[0]['pizza_name'] }}</h3> (<a href="/tsoha/menu/{{ p[0]['sid'] }}">lisatiedot</a>).<br/>
+		<h3>{{ p[0]['pizza_name'] }}</h3> (<a href="/tsoha/menu/tietty/{{ p[0]['sid'] }}">lisatiedot</a>).<br/>
 		Sisaltaa:<br/>
 		{% for g in p %}
 			<!--{{ g['pizza_name'] }}: -->{{ g['lisuke_nimi'] }} <br>
