@@ -5,6 +5,13 @@ Yleisiä linkkejä:
 * [Sovellus](http://brute.havoc.fi:8800/tsoha/)
 * [Dokumentaatio](https://github.com/bgran/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
+## Tietokantasovelluksen kaytto
+
+Jarjestelmassa on anon ja admin -henkiloita. Admin voi tehda useampi asioita,
+kuten lisata staattisia pizzoja, ja lisata pizza-lisukkeita. Kaikki muut
+kayttajat ovat anon -kayttajia. Admin-tunnukselle kirjaudutaan etusivn
+linkin kauttta. Kayttajatunns on "admin" ja salasana "foobar".
+
 ## Sovelluskayttoliittyma
 
 Sovelluksen ulkonako paivittyy jatkuvasti osoitteessa [http://brute.havoc.fi:8800/tsoha/](http://brute.havoc.fi:8800/tsoha/)
