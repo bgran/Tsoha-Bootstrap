@@ -55,7 +55,7 @@ class Pizza extends BaseModel {
                 $a_pizzaname = $res->request->post('a_pizzaname');
 		$a_pizzaname = BaseController::strip_unwanted(
 			$a_pizzaname);
-                print "a_pizzaname: " . $a_pizzaname;
+                //print "a_pizzaname: " . $a_pizzaname;
 
                 $s_pizza = "INSERT INTO staattiset_pizzat (id, pizza_name) VALUES(:id, :pizza_name)"; //, $a_pizzaname)";
                 $st = $db->prepare($s_pizza);

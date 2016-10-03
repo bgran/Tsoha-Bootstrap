@@ -91,7 +91,7 @@ class PizzaController extends BaseController {
 		$pizzas = Pizza::get_pizzas_id();
 		$lisuke = Lisuke::all();
 		
-		print "dfela_anon static";
+		//print "dfela_anon static";
 		$tmp = new TempPizza(array());
 		$tmp->del_anon_pizza();
 		$res->redirect('/tsoha/menu');

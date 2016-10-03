@@ -19,15 +19,15 @@ class TempPizza extends BaseModel {
 			
 		}*/
 		if ($_SESSION["auth"] = "admin") {
-			print "ADMIN LOGIN";
+			//print "ADMIN LOGIN";
 			$this->is_admin = true;
 			return true;
 		} else {
-			print "EI ADMIN LOGIN";
+			//print "EI ADMIN LOGIN";
 			return false;
 		}
 		$sessid = session_id();
-		print "sessid: $sessid<br><br>";
+		//print "sessid: $sessid<br><br>";
 		if ($sessid == "") {
 			return false;
 		} else {
@@ -36,13 +36,13 @@ class TempPizza extends BaseModel {
 
 
 		if (!defined("_SESSION")) {
-			print "ei sessiota";
+			//print "ei sessiota";
 			return false;
 		}
 
 		
 		
-		print "$_SESSION";
+		//print "$_SESSION";
 		if ($_SESSION) {
 			return true;
 		} else {
@@ -89,7 +89,7 @@ class TempPizza extends BaseModel {
 		$st->execute(/*array("ses" => $sid)*/);
 
 		$sql = "DELETE FROM a_ll WHERE temp_id='". $sid ."'";
-		print "sql: $sql";
+		//print "sql: $sql";
                 $st = $db->prepare($sql);
                 $st->execute(/*array("ses" => $sid)*/);
 	}

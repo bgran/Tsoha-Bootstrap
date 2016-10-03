@@ -21,15 +21,15 @@ class User extends BaseModel {
 			
 		}*/
 		if ($_SESSION["auth"] = "admin") {
-			print "ADMIN LOGIN";
+			//print "ADMIN LOGIN";
 			$this->is_admin = true;
 			return true;
 		} else {
-			print "EI ADMIN LOGIN";
+			//print "EI ADMIN LOGIN";
 			return false;
 		}
 		$sessid = session_id();
-		print "sessid: $sessid<br><br>";
+		//print "sessid: $sessid<br><br>";
 		if ($sessid == "") {
 			return false;
 		} else {
@@ -38,13 +38,13 @@ class User extends BaseModel {
 
 
 		if (!defined("_SESSION")) {
-			print "ei sessiota";
+			//print "ei sessiota";
 			return false;
 		}
 
 		
 		
-		print "$_SESSION";
+		//print "$_SESSION";
 		if ($_SESSION) {
 			return true;
 		} else {
@@ -122,11 +122,11 @@ class User extends BaseModel {
                         $new_pizza = $row[0];
                         break;
                 }
-                print "<h1>$new_pizza</h1><br><br>";
+                //print "<h1>$new_pizza</h1><br><br>";
                 //$new_pizza = $s_v[0];
 
                 $a_pizzaname = $res->request->post('a_pizzaname');
-                print "a_pizzaname: " . $a_pizzaname;
+                //print "a_pizzaname: " . $a_pizzaname;
 
                 $s_pizza = "INSERT INTO staattiset_pizzat (id, pizza_name) VALUES(:id, :pizza_name)"; //, $a_pizzaname)";
                 $st = $db->prepare($s_pizza);
@@ -143,7 +143,7 @@ class User extends BaseModel {
                        $num_id = $row[0];
                        break;
                  }
-                 print "num_id: " . $num_id . "<br>";
+                 //print "num_id: " . $num_id . "<br>";
 
                  for ($i= 0; $i<$num_id ;$i++) {
                  	$tmp = $res->request->post('a_lisuke_'.$i);

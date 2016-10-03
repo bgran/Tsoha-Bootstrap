@@ -64,7 +64,7 @@ class LoginController extends BaseController {
 	}
 
 	public function _is_valid() {
-		print "$_SESSION";
+		//print "$_SESSION";
 		if ($_SESSION) {
 			return true;
 		} else {
