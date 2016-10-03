@@ -44,6 +44,11 @@ class LoginController extends BaseController {
 	public static function login($res) {
 		$a_username = $res->request->post('a_username');
 		$a_password = $res->request->post('a_password');
+
+		$a_username = BaseController::strip_unwanted($a_username);
+		$a_username = BaseController::strip_unwanted($a_password);
+		
+
 		$attr = array();
 		$user = new User($attr);
 		$user->populate_user_from_db($a_username);

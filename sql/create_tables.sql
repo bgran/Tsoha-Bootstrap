@@ -1,7 +1,7 @@
 CREATE SEQUENCE lisukkeet_id_seq;
 CREATE TABLE lisukkeet (
 	id		INT PRIMARY KEY DEFAULT nextval('lisukkeet_id_seq'),
-	lisuke_nimi	VARCHAR(255) UNIQUE,
+	lisuke_nimi	VARCHAR(255) UNIQUE NOT NULL,
 	lisuke_hinta	INT
 );
 CREATE TABLE s_ll (
@@ -11,7 +11,7 @@ CREATE TABLE s_ll (
 CREATE SEQUENCE staattiset_pizzat_id_seq;
 CREATE TABLE staattiset_pizzat (
 	id		INT PRIMARY KEY DEFAULT nextval('staattiset_pizzat_id_seq'),
-	pizza_name	VARCHAR(255) UNIQUE
+	pizza_name	VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE SEQUENCE user_id_seq;
@@ -31,7 +31,7 @@ CREATE TABLE temp_pizza (
 	id		VARCHAR(50) PRIMARY KEY
 );
 CREATE TABLE a_ll (
-        temp_id        	VARCHAR(50),
+        temp_id        	VARCHAR(50) NOT NULL,
         lisukkeen_id    INT
 );
 

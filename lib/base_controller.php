@@ -71,4 +71,14 @@
         }
 
 
+	public static function coerce_num($val) {
+		$rv = intval($val);
+		return $rv;
+	}
+	public static function strip_unwanted($val) {
+		$val = strip_tags($val);
+		$val = preg_replace("/[^[:alnum:][:space:]]/u", '', $val);
+		return ($val);
+	}
+
   }

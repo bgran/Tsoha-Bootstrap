@@ -3,8 +3,12 @@ class LisukeController extends BaseController {
 
 	public static function add($res) {
 		$params = array();
-		$params['lisukename'] = $res->request->post('a_lisukename');
-		$params['lisukehinta'] = $res->request->post('a_lisukehinta');
+		$lisuri = BaseController::strip_unwanted(
+			$res->request->post('a_lisukename'));
+		$lishinta = BaseController::strip_unwanted(
+			$res->request->post('a_lisukehinta'));
+		$params['lisukename'] = $lisuri;
+		$params['lisukehinta'] = $lishinta;
 		$lisuke = new Lisuke($params, $res);
 		$lisuke->add();
 		//$res->redirect('/tsoha/menu');

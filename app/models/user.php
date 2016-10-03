@@ -84,12 +84,10 @@ class User extends BaseModel {
 	}
 
 	public function populate_user_from_db($username) {
-		print "POPULATING stuff man";
 		$db = DB::connection();
 		
 		$sql = "SELECT id,username,phash FROM users ORDER BY id";
 		foreach ($db->query ($sql) as $row) {
-			print "row[username]: " . $row["username"];
 			if ($username == $row['username']) {
 			
 				$this->userid = $row['id'];
@@ -105,7 +103,6 @@ class User extends BaseModel {
 			}
 
 		}
-		print "FALLBVACK";
 		$this->userid = -1;
 		$this->username = 'anon';
 		$this->password = '';

@@ -53,6 +53,8 @@ class Pizza extends BaseModel {
                 //$new_pizza = $s_v[0];
 
                 $a_pizzaname = $res->request->post('a_pizzaname');
+		$a_pizzaname = BaseController::strip_unwanted(
+			$a_pizzaname);
                 print "a_pizzaname: " . $a_pizzaname;
 
                 $s_pizza = "INSERT INTO staattiset_pizzat (id, pizza_name) VALUES(:id, :pizza_name)"; //, $a_pizzaname)";
@@ -80,8 +82,8 @@ class Pizza extends BaseModel {
                               $s_pizza = "INSERT INTO s_ll (pizza_id, lisukkeen_id) VALUES(:pizza_id, :lisukkeen_id)";
                               $st = $db->prepare($s_pizza);   
                               $st->execute(array(
-                              "pizza_id" => $new_pizza,
-                              "lisukkeen_id" => $i));
+                              	"pizza_id" => $new_pizza,
+                              	"lisukkeen_id" => $i));
                         }
 		}
 
@@ -120,7 +122,7 @@ class Pizza extends BaseModel {
 
 	public static function get_id($numero) {
 		$conn = DB::connection();
-		$id = intval($numero);
+		$id = BaseController::coerce_num($numero);
 		$sql = "SELECT DISTINCT staattiset_pizzat.id FROM staattiset_pizzat,s_ll,lisukkeet WHERE staattiset_pizzat.id=s_ll.pizza_id AND lisukkeet.id=s_ll.lisukkeen_id AND staattiset_pizzat.id=$id";
 		$result = array();
 		foreach ($conn->query($sql) as $row) {
