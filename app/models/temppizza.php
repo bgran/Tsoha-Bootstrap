@@ -82,7 +82,6 @@ class TempPizza extends BaseModel {
 	}
 
 	public function del_anon_pizza() {
-		print "HAUKDIDDDD";
 		$db = DB::connection();
 		$sid = session_id();
 		$sql = "DELETE FROM temp_pizza WHERE id='". $sid ."'";

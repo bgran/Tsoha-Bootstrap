@@ -20,7 +20,9 @@ class PizzaController extends BaseController {
 		if (!PizzaController::s_is_valid()) {
 			View::make('noauth.html');
 		} else {
-			$a_pizzaname = $res->request->post('a_pizzaname');
+			//$a_pizzaname = $res->request->post('a_pizzaname');
+			//$a_pizzaname = \
+			//	PizzaController::strip_unwanted($a_pizzaname);
 			Pizza::add($res);
 			$res->redirect('/tsoha/menu');
 		}
@@ -36,7 +38,6 @@ class PizzaController extends BaseController {
 
 	public static function pizza($numero) {
 		$pizza_data = Pizza::pizza_numero($numero);
-		print "PRKRLRLR";
 		View::make('.naytaid.html',
 			array('pizza_data'=>$pizza_data,
 				"user"=>BaseController::s_auth()));
@@ -87,7 +88,6 @@ class PizzaController extends BaseController {
 	}
 
 	public static function del_anon($res) {
-		print "del_anon lkaklaaallaa";
 		$pizzas = Pizza::get_pizzas_id();
 		$lisuke = Lisuke::all();
 		
