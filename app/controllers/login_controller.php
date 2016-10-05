@@ -46,13 +46,14 @@ class LoginController extends BaseController {
 		$a_password = $res->request->post('a_password');
 
 		$a_username = BaseController::strip_unwanted($a_username);
-		$a_username = BaseController::strip_unwanted($a_password);
+		$a_password = BaseController::strip_unwanted($a_password);
 		
 
 		$attr = array();
 		$user = new User($attr);
 		$user->populate_user_from_db($a_username);
-
+		print "user-password: ".$user->password;
+		print "a_password: " . $a_password;
 		if ($user->password == $a_password) {
 			$_SESSION["auth"] = $user->username;
 		} else {
