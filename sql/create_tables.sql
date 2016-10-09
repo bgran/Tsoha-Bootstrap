@@ -35,3 +35,8 @@ CREATE TABLE a_ll (
         lisukkeen_id    INT
 );
 
+CREATE TABLE orders (
+	user_id		VARCHAR(50) NOT NULL,
+	pizza_id	INTEGER NOT NULL
+);
+

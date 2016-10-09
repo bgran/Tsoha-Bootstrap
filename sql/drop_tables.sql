@@ -10,3 +10,5 @@ DROP SEQUENCE user_id_seq;
 
 DROP TABLE temp_pizza;
 DROP TABLE a_ll;
+
+DROP TABLER orders;

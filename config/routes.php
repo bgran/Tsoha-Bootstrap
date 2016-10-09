@@ -1,14 +1,5 @@
 <?php
 
- /* $g_user = new User(array());
-  $bauth = $g_user->is_valid();
-  if ($bauth ) {
-	print "BAUTH TRUE";
-  } else {
-	print "BAUTH FALSE";
-  }*/
-
-
   $routes->get('/', function() {
     PizzaController::index();
   });
@@ -62,6 +53,12 @@ $routes->post('/menu/del_anon', function() use ($routes) {
 $routes->get('/menu/tietty/:numero', function($numero) use ($routes) {
         PizzaController::get_id($numero, $routes);
 });
+$routes->get('/menu/crud_template', function() use ($routes) {
+	PizzaController::pizza_crud_template($routes);
+});
+$routes->post('/menu/crud_hook', function() use ($routes) {
+	PizzaController::pizza_crud($routes);
+});
 
 
 /*
@@ -86,6 +83,16 @@ $routes->post('/login/doit', function() use ($routes) {
 });
 $routes->get('/login/logout', function() use ($routes) {
 	LoginController::logout($routes);
+});
+
+/*
+ * Orders
+ */
+$routes->get('/order', function() {
+	OrderController::index();
+});
+$routes->get('/order/place/:userid/:pizzaid', function($userid, $pizzaid) use ($routes) {
+	OrderController::place_new_order($userid, $pizzaid, $routes);
 });
 
 ?>

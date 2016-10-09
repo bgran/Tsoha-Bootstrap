@@ -14,9 +14,11 @@
         $content['base_path'] = BASE_PATH;
 
         // Asetetaan näkymään kirjautunut käyttäjä, jos get_user_logged_in-metodi on toteutettu
-        if(method_exists('BaseController', 'get_user_logged_in')){
-          $content['user_logged_in'] = BaseController::get_user_logged_in();
-        }
+        //if(method_exists('BaseController', 'get_user_logged_in')){
+        //  $content['user_logged_in'] = BaseController::get_user_logged_in();
+        //}
+	$content['user'] = BaseController::s_auth();
+	
 
         // Tulostetaan Twig:n renderöimä näkymä
         echo $twig->render($view, $content);

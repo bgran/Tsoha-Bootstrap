@@ -45,13 +45,13 @@
 		return BaseController::auth_creds();
 	}
 
-	public function ex_auth () {
-		if (!isset($_SESSION["auth"])) {
-			return "anon";
-		} else {
-			return $_SESSION["auth"];
-		}
-	}
+	//public function ex_auth () {
+	//	if (!isset($_SESSION["auth"])) {
+	//		return "anon";
+	//	} else {
+	//		return $_SESSION["auth"];
+	//	}
+	//}
  	public static function s_ex_auth () {
                 if (!isset($_SESSION["auth"])) {
                         return "anon";
@@ -59,11 +59,11 @@
                         return $_SESSION["auth"];
                 }
         }
-	public function auth() {
-		$user = new User(array());
-		$user->populate_user_from_db($this->ex_auth());
-		return $user;
-	}
+	//public function auth() {
+	//	$user = new User(array());
+	//	$user->populate_user_from_db($this->ex_auth());
+	//	return $user;
+	//}
         public static function s_auth() {
                 $user = new User(array());
                 $user->populate_user_from_db(BaseController::s_ex_auth());

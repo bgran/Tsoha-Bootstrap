@@ -2,30 +2,26 @@
 class LisukeController extends BaseController {
 
 	public static function add($res) {
+		$user = LisukeController::s_auth();
 		$params = array();
 		$lisuri = BaseController::strip_unwanted(
 			$res->request->post('a_lisukename'));
 		$lishinta = BaseController::strip_unwanted(
 			$res->request->post('a_lisukehinta'));
-		$params['lisukename'] = $lisuri;
-		$params['lisukehinta'] = $lishinta;
-		$lisuke = new Lisuke($params, $res);
-		$lisuke->add();
-		//$res->redirect('/tsoha/menu');
 
-		$pizzas = Pizza::get_pizzas_id();
-		$lisuke = Lisuke::all();
-		View::make('uusmenu.html', array(
-			"pizza_data" => $pizzas,
-			"lisuke" => $lisuke,
-			"user"=>LisukeController::s_auth()));
+		$lisuke = new Lisuke(array());
+		$lisuke->name = $lisuri;
+		$lisuke->price = $lishinta;
+
+		$lisuke->ng_add();
+		$res->redirect("/tsoha");
 	}
 
 	public static function add_templ() {
+		$user = LisukeController::s_auth();
 		$data = Lisuke::get();
 		View::make('lisaalisuke.html', array(
-			'lisukkeet' => $data,
-			"user"=>LisukeController::s_auth()));
+			'lisukkeet' => $data));
 	}
 
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun tilaus:
+
+<hr>
+Tilaukset:
+<p>
+	{% for order in orders %}
+<p>
+		 <b>{{order.order.name}}</b> ({{order.order.price}})
+	{% endfor %}
+<p>
+	<a href="/tsoha/">Siirry takaisin etusivulle</a>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / menu
+{% endblock %}
+
+	

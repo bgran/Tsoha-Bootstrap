@@ -6,19 +6,17 @@
 
 
 <p>
-	{% for p in pizza_data %}
-<p>
-		<h3>{{ p[0]['pizza_name'] }}</h3>
+		<h3>{{ pizza_data.name }}</h3>
 		Sisaltaa:<br/>
-		{% for g in p %}
-			<!--{{ g['pizza_name'] }}: -->{{ g['lisuke_nimi'] }} <br>
+		{% for l in pizza_data.lisukkeet %}
+			<!--{{ g['pizza_name'] }}: -->{{ l.name }} (hinta: {{l.price}}) <br>
 
 		{% endfor %}
+		pizzan kokonaishinta: {{pizza_data.price}}
 		<!-- sid, lid, lisuke_nimi, lisuke_hinta, pizza_name -->
 		<!--{{ p['pizza_name'] }}: {{ p['lisuke_nimi'] }}-->
-		
+	<p>	
 
-	{% endfor %}
 	<a href="/tsoha/menu">Siirry takaisin menuseen</a>	
 
 {% endblock %}

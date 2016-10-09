@@ -1,36 +1,73 @@
 <?php
 
-class Lisuke extends BaseModel {
+class Order extends BaseModel {
 	private $params = null;
 	private $res = null;
 
-
-	public $name, $price;
-	public $id;
-	public $checked = false;
-
+	
+	public $price = 0;
+	public $user;
+	public $order;
 
 	public function __construct($attributes) {
                 parent::__construct($attributes);
 		//$this->params = $attributes;
 		//$this->res = $_res;
-        }       	
+        }
 
-	public static function get_id($id) {
-		$id = intval($id);
+	public static function get_id() {
+		$rv = array();
+		$id = session_id();
 		$db = DB::connection();
-		$sql = "SELECT id,lisuke_nimi,lisuke_hinta FROM lisukkeet WHERE id=:id ORDER BY id";
+		$sql = "SELECT user_id,pizza_id FROM orders WHERE user_id=:user_id ORDER by pizza_id";
 		$st = $db->prepare($sql);
 		$st->execute(array(
-			':id' => $id));
-		$ar = $st->fetch();
-		$obj = new Lisuke(array());
-		$obj->id = $id;
-		$obj->name = $ar['lisuke_nimi'];
-		$obj->price = $ar['lisuke_hinta'];
-
-		return ($obj);
+			':user_id' => $id));
+		foreach ($st->fetchAll() as $row) {
+			$user_id = $row['user_id'];
+			$pizza_id = $row['pizza_id'];
+			$obj = new Order(array());
+			$obj->user = $user_id;
+			$obj->order = Pizza::ng_get_id($pizza_id);
+			//$obj->price += $obj->order->price;
+			$rv[] = $obj;
+		}
+		return $rv;
 	}
+
+	public static function get_new($pizza_id) {
+		$obj = new Order(array());
+		$obj->user = session_id();
+		$obj->order = $pizza_id;
+		return $obj;
+	}
+
+	public function add() {
+		$db = DB::connection();
+		$sql = "INSERT INTO orders(user_id, pizza_id) VALUES(:userid, :pizzaid)";
+		$st = $db->prepare($sql);
+		$st->execute(array(
+			':userid' => $this->user,
+			':pizzaid' => $this->order));
+	}
+
+	public static function raportti() {
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	public static function get_by_pizza_id($id) {
 		$id = intval($id);
 		$rv = array();

@@ -2,17 +2,19 @@
 
 class Pizza extends BaseModel {
 
-	public $name, $price;
+	public $name, $price = 0;
+	public $id;
+	public $lisukkeet = array();
 	public function __construct($attributes = null) {
                 parent::__construct($attributes);
-        }       	
+        }
 
 	public static function all() {
 		$db = DB::connection();
 		$sql = "SELECT id,pizza_name FROM staattiset_pizzat ORDER BY id";
-		$reesult = array();
+		$result = array();
 		foreach($db->query($sql) as $row) {
-
+			//$pizza = new Pizza();
 			$result[] = $row;
 		}
 		return $result;
@@ -33,6 +35,99 @@ class Pizza extends BaseModel {
 		}
 		return ($result);
 			
+	}
+
+	public function save() {
+		$sql = "UPDATE staattiset_pizzat SET pizza_name=:pizzaname WHERE
+ id=:id";
+		$db = DB::connection();
+		$st = $db->prepare($sql);
+		$st->execute(array(
+			':pizzaname' => $this->name,
+                        ':id' => $this->id));
+	}
+	public function delete() {
+		$db = DB::connection();
+		$sql = "DELETE FROM staattiset_pizzat WHERE id=:id";
+		$st = $db->prepare($sql);
+		$st->execute(array(":id" => $this->id));
+	}
+
+	public function drop_lisuke_id($i) {
+		$db = DB::connection();
+		$sql = "DELETE FROM s_ll WHERE lisukkeen_id=:id and pizza_id=:pid";
+		$st = $db->prepare($sql);
+		$st->execute(array(':id' => $i, ":pid" => $this->id));
+	}
+	private function lisuke_exists($i) {
+		$db = DB::connection();
+		$sql = "SELECT count(pizza_id) FROM s_ll WHERE pizza_id=:pid AND lisukkeen_id=:id";
+                $st = $db->prepare($sql);
+                $st->execute(array(":pid" => $this->id, ':id' => $i));
+		$result = $st->fetch();
+		return $result[0] > 0;
+		return $result[0];
+	}
+
+	public function add_lisuke_id($i) {
+		if ($this->lisuke_exists($i)) {
+
+		} else {
+			$db = DB::connection();
+			$sql = "INSERT INTO s_ll(pizza_id, lisukkeen_id) VALUES(:pid, :lid)";
+			$st = $db->prepare($sql);
+			$st->execute(array(":pid" => $this->id, ':lid' => $i));
+		}
+	}
+
+
+	private function populate_lisuke() {
+		$db = DB::connection();
+		$this->lisukkeet = Lisuke::get_by_pizza_id($this->id);
+		foreach($this->lisukkeet as $obj) {
+			$this->price += $obj->price;
+			//print "<br>obj-price" . $obj->price;
+			//print "<br>this-price" . $this->price;
+			//print "<br><br>";
+		}
+	}
+	public static function ng_get_id($id) {
+		$db = DB::connection();
+		$sql = "SELECT id,pizza_name FROM staattiset_pizzat WHERE id=:id";
+		$st = $db->prepare($sql);
+		//$st->bindParam(':id', $id, PDO::PARAM_INT);
+		$st->execute(array(
+			':id' => $id));
+		$ar = $st->fetch();
+		$obj = new Pizza(array());
+		$obj->name = $ar['pizza_name'];
+		$obj->id = $ar['id'];
+		$obj->populate_lisuke();
+		return $obj;
+	}
+	public static function ng_get_all() {
+		$db = DB::connection();
+		$sql = "SELECT id,pizza_name FROM staattiset_pizzat ORDER BY id";
+		$res = array();
+		$st = $db->prepare($sql);
+		$st->execute();
+		foreach ($st->fetchAll() as $row) {
+			$_id = $row['id'];
+			//print "kala: " . $_id;
+			//$res[$_id] = Pizza::ng_get_id($_id);
+			array_push($res, Pizza::ng_get_id($_id));
+		}
+		return $res;
+	}
+
+	public function pizza_has_lisuke($id) {
+		$id = intval($id);
+		foreach ($lisukkeet as $row) {
+			if ($row->id == $id) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 

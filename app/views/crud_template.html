@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- filename: koosta_staattinen.html -->
+<p>Pizzapalvelun menu:
+
+<p>
+	Editoi pizzaa:
+	<form method="POST" action="/tsoha/menu/crud_hook">
+
+	<input type=text width="60" name="a_pizzaname" value="{{pizza.name}}"><br/>
+	<input type=hidden name="pizza_id" value="{{pizza.id}}">
+	Lisukkeet:
+	<ol>
+		{% for l in lisukkeet %}
+			<!--{% for lp in pizza.lisukkeet %}
+				{% if lp.id==l.id %}
+					checked
+				{% endif %}
+			{% endfor %}-->
+			<li><input type="checkbox" name="a_lisuke_{{l.id}}" {% for lp in pizza.lisukkeet %}{% if lp.id==l.id %}checked{% endif %}{% endfor %}> {{l.name}} ({{l.price}}) </li>
+		{% else %}
+			Lisukkeita ei ole kannassa.
+		{% endfor %}
+
+	</ol>
+	Tallenna pizza: <input type="submit" name="op_save" value="tallenna pizza"><br/>
+	Poista pizza: <input type="submit" name="op_delete" value="poista pizza">
+	</form>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / Editoi pizzaa
+{% endblock %}
+

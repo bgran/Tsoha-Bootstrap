@@ -14,21 +14,30 @@
 <input type="submit" value="Poista pizza">
 </form>
 
+
+<hr>
+
+<a href="/tsoha/order">Tilatut pizza</a>.
+<br><Br>
+
+
 <hr>
 Valmiit pizzat:
 <p>
 	{% for p in pizza_data %}
 <p>
-		<h3>{{ p[0]['pizza_name'] }}</h3> (<a href="/tsoha/menu/tietty/{{ p[0]['sid'] }}">lisatiedot</a>).<br/>
+		<h3>{{ p.name }}</h3> (<a href="/tsoha/menu/tietty/{{p.id}}">lisatiedot</a>).<br/>
+		{% if user.is_admin %}
+			<a href="/tsoha/menu/crud_template?a_pizzaid={{p.id}}">Muokkaa pizzaa</a>.<br/>
+		{% endif %}
 		Sisaltaa:<br/>
-		{% for g in p %}
-			<!--{{ g['pizza_name'] }}: -->{{ g['lisuke_nimi'] }} <br>
+		{% for l in p.lisukkeet %}
+			<!-- -->{{ l.name }}<br>
 
 		{% endfor %}
-		<!-- sid, lid, lisuke_nimi, lisuke_hinta, pizza_name -->
-		<!--{{ p['pizza_name'] }}: {{ p['lisuke_nimi'] }}-->
-		
-
+		Pizzan hinta: {{p.price}}<br/>
+		<a href="/tsoha/order/place/{{user.session_id}}/{{p.id}}">Tilaa pizza!</a><br>
+	
 	{% endfor %}
 	<a href="/tsoha/">Siirry takaisin etusivulle</a>
 
@@ -38,3 +47,4 @@ Valmiit pizzat:
 Pizza-Service / menu
 {% endblock %}
 
+	

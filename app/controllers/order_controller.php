@@ -1,6 +1,25 @@
 <?php
-class PizzaController extends BaseController {
+class OrderController extends BaseController {
+
+
+
+	public static function index() {
+		$orders = Order::get_id();
+		foreach ($orders => $obj) {
+
+		}
+		View::make('order/index.html', array(
+			"orders" => $orders));
+	}
+	public static function place_new_order($userid, $pizzaid, $res) {
+		$obj = Order::get_new($pizzaid);
+		$obj->add();
+		$res->redirect('/tsoha/menu');
+	}
+
 	
+
+
 	//
 	// /menu stuff in pizzas()
 	//
@@ -144,17 +163,6 @@ class PizzaController extends BaseController {
         }
 
 
-	public static function index() {
-		//$user = PizzaController::s_auth();
-		//$bauth = $g_user->is_valid();
-		//print "<br>$bauth</br>";
-		$db = DB::connection();
-		$now = Pizza::now();
-		$authcreds = PizzaController::auth_creds();
-		View::make('pizza.html', array('now' => $now));
-			//"auth_creds" => $authcreds,
-			//"user"=>$user));
-	}
 
 	public static function del_anon($res) {
 		$pizzas = Pizza::get_pizzas_id();
