@@ -1,14 +1,12 @@
 <?php
 
-class Order extends BaseModel {
+class Orders extends BaseModel {
 	private $params = null;
 	private $res = null;
 
-	public $compound_price = 0;
+	public $pizzas = array();
+	public $price = array();
 	
-	public $price = 0;
-	public $user;
-	public $order;
 
 	public function __construct($attributes) {
                 parent::__construct($attributes);
@@ -16,45 +14,37 @@ class Order extends BaseModel {
 		//$this->res = $_res;
         }
 
-	public static function get_id() {
-		$rv = array();
-		$id = session_id();
-		$db = DB::connection();
-		$sql = "SELECT user_id,pizza_id FROM orders WHERE user_id=:user_id ORDER by pizza_id";
-		$st = $db->prepare($sql);
-		$st->execute(array(
-			':user_id' => $id));
-		foreach ($st->fetchAll() as $row) {
-			$user_id = $row['user_id'];
-			$pizza_id = $row['pizza_id'];
-			$obj = new Order(array());
-			$obj->user = $user_id;
-			$obj->order = Pizza::ng_get_id($pizza_id);
-			//$obj->price += $obj->order->price;
-			$rv[] = $obj;
+	public static function orders_report() {
+		$orders = Order::get_id();
+		$numtbl = array();
+		
+		$price_compund = 0;
+
+		$arr = array_count_values($orders);
+		
+		foreach($arr as $key => $val) {
+			
 		}
-		return $rv;
+
+		foreach($orders as $obj) {
+			
+
+		}
+		
+		$state = 1;
+		$price = 0;
+		$prev = null;
+		foreach ($orders as $order) {
+			$numtbl[$order->order] += 1;			
+		}
+
+		foreach ($numtbl as $key => $value) {
+			$key->compound_price = $key->price * $value;	
+		}
+
+		
 	}
 
-	public static function get_new($pizza_id) {
-		$obj = new Order(array());
-		$obj->user = session_id();
-		$obj->order = $pizza_id;
-		return $obj;
-	}
-
-	public function add() {
-		$db = DB::connection();
-		$sql = "INSERT INTO orders(user_id, pizza_id) VALUES(:userid, :pizzaid)";
-		$st = $db->prepare($sql);
-		$st->execute(array(
-			':userid' => $this->user,
-			':pizzaid' => $this->order));
-	}
-
-	public static function raportti() {
-
-	}
 
 
 
