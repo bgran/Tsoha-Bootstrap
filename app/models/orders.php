@@ -15,147 +15,63 @@ class Orders extends BaseModel {
         }
 
 	public static function orders_report() {
-		$orders = Order::get_id();
-		$numtbl = array();
-		
-		$price_compund = 0;
+		$sql1 = "select orders.pizza_id,sum(lisukkeet.lisuke_hinta) from lisukkeet,s_ll,staattiset_pizzat,orders WHERE lisukkeet.id=s_ll.lisukkeen_id AND s_ll.pizza_id=staattiset_pizzat.id and orders.pizza_id=staattiset_pizzat.id AND orders.user_id= ? GROUP BY orders.pizza_id ORDER BY orders.pizza_id";
+		$sql2 = "select pizza_id,count(pizza_id) from orders where user_id= ? group by pizza_id ORDER BY orders.pizza_id";
 
-		$arr = array_count_values($orders);
-		
-		foreach($arr as $key => $val) {
-			
-		}
-
-		foreach($orders as $obj) {
-			
-
-		}
-		
-		$state = 1;
-		$price = 0;
-		$prev = null;
-		foreach ($orders as $order) {
-			$numtbl[$order->order] += 1;			
-		}
-
-		foreach ($numtbl as $key => $value) {
-			$key->compound_price = $key->price * $value;	
-		}
-
-		
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public static function get_by_pizza_id($id) {
-		$id = intval($id);
-		$rv = array();
 		$db = DB::connection();
-			$sql = "SELECT lisukkeet.id AS id FROM lisukkeet,s_ll,staattiset_pizzat WHERE lisukkeet.id=s_ll.lisukkeen_id AND s_ll.pizza_id=staattiset_pizzat.id AND pizza_id=:id";
+
+		$st1 = $db->prepare($sql1);
+		$st1->execute(array(
+			/*':user_id' =>*/ session_id()));
+
+		$arr1 = array();
+		$k = 0;
+		foreach($st1->fetchAll() as $row) {
+			//print "KALAAAA<br><br>";
+			$arr1[] = $row;
+			$k ++;
+		}
+		
+		$st2 = $db->prepare($sql2);
+		$st2->execute(array(/*
+			':user_id' => */session_id()));
+		$arr2 = array();
+		$k = 0;
+		foreach($st2->fetchAll() as $row) {
+			//print "HAUKEA<br><br>";
+
+			$arr2[] = $row;
+			$k ++;
+		}
+
+		$i = count($arr1);
+
+		$objs = array();
+
+		for ($j=0; $j < $i; $j++) {
+		//	print "iter: <br><br>";
+			$r1 = $arr1[$j];
+			$r2 = $arr2[$j];
+
+			//var_dump($r1);
+			//var_dump($r2);
+			$pizza_id = $r1[0];
+			$count_ = $r2[1];
+			$price = $r1[1];
+			$obj = Report::gen($pizza_id, $count_, $price);
+			//print "price: " . $obj->price . "<br><br>";
+			$objs[] = $obj;
+		}
+
+		return $objs;
+	}
+	public static function del() {
+		$db = DB::connection();
+		$sql = "DELETE FROM orders WHERE user_id=?";
 		$st = $db->prepare($sql);
-		$st->execute(array(
-			':id' => $id));
-		$arr = $st->fetchAll();
-		foreach ($arr as $row) {
-			$obj = Lisuke::get_id($row['id']);
-			$rv[$row['id']] = $obj;
-			//array_push($rv, $obj);
-		}
-		return $rv;
+		$st->execute(array(session_id()));
 	}
 
-
-	public static function all() {
-		$db = DB::connection();
-		$sql = "SELECT id,lisuke_nimi,lisuke_hinta FROM lisukkeet ORDER BY id";
-		$result = array();
-		foreach($db->query($sql) as $row) {
-			$_id = $row['id'];
-			$result[] = Lisuke::get_id($_id);
-		}
-		return $result;
-	}
-
-
-	public static function get() {
-		$conn = DB::connection();
-        	$rv = array();
-        	$sql = "SELECT id,lisuke_nimi,lisuke_hinta FROM lisukkeet ORDER BY id";
-       		$sth = $conn->prepare($sql);
-        	$sth->execute();
-        	$result = $sth->fetchAll();
-        	return ($result);
-	}
-
-	/*
-	 * Return stuff about errors ...
-	 */
-	private function validate_add() {
-		if ($this->params['lisukename'] == "virhe") {
-			$this->res->redirect('/tsoha/');
-			exit();
-		}
-		return true;
-
-	}
-
-	public function ng_add() {
-		$db = DB::connection();
-		$sql = "INSERT INTO lisukkeet(lisuke_nimi, lisuke_hinta) VALUES(:nimi, :hinta)";
-		$st = $db->prepare($sql);
-		$st->execute(array(
-			":nimi" => $this->name, ":hinta" => $this->price));
-	}
-
-	public function old_add() {
-        	$db = DB::connection();
-		$nimi = $this->params["lisukename"];
-		$hinta = $this->params["lisukehinta"];
-
-		$this->validate_add();
-
-        	$sql = "INSERT INTO lisukkeet(lisuke_nimi, lisuke_hinta) VALUES(:lisuke_nimi, :lisuke_hinta)";
-        	$db->beginTransaction();
-        	$st = $db->prepare($sql);
-        	$st->execute(array(
-                	"lisuke_nimi" => $nimi,
-                	"lisuke_hinta" => $hinta));
-        	$db->commit();
-        	//$res->redirect('/tsoha');
-        }
-                        
-
-	public static function now() {
-		$db = DB::connection();
-		$sql = "SELECT now()";
-		$rv = '';
-		foreach ($conn->query($sql) as $row) {	
-			$rv = $row[0];
-			break;
-		}
-		return ($rv);
-	}
-	public static function num_lisukkeet() {
-		$db = DB::connection();
-		$sql = "SELECT MAX(id)+1 FROM lisukkeet";
-	 	$st = $db->prepare($sql);
-		$st->execute();
-		$rv = $st->fetch();
-		print "kalaa: " . $rv[0];
-		return $rv[0];
-	}
 }
 
 ?>

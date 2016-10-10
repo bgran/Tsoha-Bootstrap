@@ -6,12 +6,15 @@
 <hr>
 Tilaukset:
 <p>
-	{% for order in orders %}
-<p>
-		 <b>{{order.order.name}}</b> ({{order.order.price}})
+<ol>
+	{% for obj in objs %}
+		<li><b>{{obj.pizza.name}}</b> m&auml;&aumlr&auml: {{obj.count}} hinta: &euro;{{obj.price}}</li>
+
 	{% endfor %}
-<p>
-	<a href="/tsoha/">Siirry takaisin etusivulle</a>
+</ol>
+<form action="/tsoha/order/del" method="POST">
+<input type="submit" value="Peruta tilaus">
+</form> 
 
 {% endblock %}
 

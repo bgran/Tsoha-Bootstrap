@@ -94,5 +94,7 @@ $routes->get('/order', function() {
 $routes->get('/order/place/:userid/:pizzaid', function($userid, $pizzaid) use ($routes) {
 	OrderController::place_new_order($userid, $pizzaid, $routes);
 });
-
+$routes->post('/order/del', function() {
+	OrderController::del_order();
+});
 ?>
