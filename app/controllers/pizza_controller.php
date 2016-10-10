@@ -171,6 +171,14 @@ class PizzaController extends BaseController {
                   //      "user"=>BaseController::s_auth(),
                     //    "tmp" => $tmp->lisukkeet));
 	}
+
+        public static function get_id($numero) {
+                $numero = intval($numero);
+                $pizza_data = Pizza::ng_get_id($numero);
+                View::make('naytaid.html',
+                        array('pizza_data' => $pizza_data));
+        }
+
 };
 
 

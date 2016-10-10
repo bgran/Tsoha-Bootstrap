@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<p>Pizzapalvelun menu:
-
+<p><h2>Pizzapalvelun menu:</h2>
 <!--
 <p>Oma pizzasi:
 <ol>
@@ -13,18 +12,11 @@
 <form action="/tsoha/menu/del_anon" method="POST">
 <input type="hidden" value="kala" name="kalaa">
 <input type="submit" value="Poista pizza">
-</form>
--->
+</form>-->
+
+<a href="/tsoha/order"><h3>Tilaa pizzat</h3></a>
 
 <hr>
-
-<a href="/tsoha/order">Tilatut pizzat</a>.
-<br><Br>
-
-
-<hr>
-Valmiit pizzat:
-<p>
 	{% for p in pizza_data %}
 <p>
 		<h3>{{ p.name }}</h3> (<a href="/tsoha/menu/tietty/{{p.id}}">lisatiedot</a>).<br/>
