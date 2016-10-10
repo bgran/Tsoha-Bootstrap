@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun tilaus:
+
+<form action="/tsoha/order/checkout" method="POST">
+
+<hr>
+Tilaukset:
+<p>
+<ol>
+	{% for obj in objs %}
+		<li><b>{{obj.pizza.name}}</b> m&auml;&aumlr&auml: {{obj.count}} hinta: &euro;{{obj.price}}</li>
+
+	{% endfor %}
+</ol>
+Nimi: <input type="text" name="u_name" size=60><br/>
+Osoite: <input type="text" name="u_address" size="60"></br>
+<input type="submit" value="Tilaa...">
+
+</form>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / menu
+{% endblock %}
+
+	

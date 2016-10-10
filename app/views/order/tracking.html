@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>Pizzapalvelun tilaus:
+
+<hr>
+Tilaukset:
+<p>
+<ol>
+	{% for val in vals %}
+		<li><b>{{val.name}}</b> {{val.address}}</li>
+		{% for pizza in val.pizzas %}
+			{{pizza.name}}<br>
+		{% endfor %}
+		<a href="/tsoha/order/cancel/{{val.po_id}}">Peruuta tilaus!</a>
+	{% endfor %}
+</ol>
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / menu
+{% endblock %}
+
+	
