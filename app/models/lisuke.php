@@ -91,23 +91,6 @@ class Lisuke extends BaseModel {
 			":nimi" => $this->name, ":hinta" => $this->price));
 	}
 
-	public function old_add() {
-        	$db = DB::connection();
-		$nimi = $this->params["lisukename"];
-		$hinta = $this->params["lisukehinta"];
-
-		$this->validate_add();
-
-        	$sql = "INSERT INTO lisukkeet(lisuke_nimi, lisuke_hinta) VALUES(:lisuke_nimi, :lisuke_hinta)";
-        	$db->beginTransaction();
-        	$st = $db->prepare($sql);
-        	$st->execute(array(
-                	"lisuke_nimi" => $nimi,
-                	"lisuke_hinta" => $hinta));
-        	$db->commit();
-        	//$res->redirect('/tsoha');
-        }
-                        
 
 	public static function now() {
 		$db = DB::connection();

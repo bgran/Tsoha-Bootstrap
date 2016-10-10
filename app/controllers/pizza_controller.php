@@ -25,6 +25,7 @@ class PizzaController extends BaseController {
 		
 		if (!$user->is_admin) {
 			View::make('crud_err.html');
+			exit();
 		} else {
 			View::make('crud_template.html', array(
 				'pizza' => $pizza,
@@ -33,6 +34,13 @@ class PizzaController extends BaseController {
 		}
 	}
 	public static function pizza_crud($res) {
+		$user = PizzaContoller::s_auth();
+		if (!$user->is_admin) {
+			View::make('autherr.html');
+			exit();
+		}
+
+
 		$db = DB::connection();
 
 		$op = null;
@@ -90,12 +98,18 @@ class PizzaController extends BaseController {
 
 	public static function add($res) {
 		$user = PizzaController::s_auth();
-		if (!$user->is_valid()) {
-			View::make('noauth.html');
+		if (!$user->is_admin) {
+			View::make('errauth.html');
+			exit();
 		} else {
 			//$a_pizzaname = $res->request->post('a_pizzaname');
 			//$a_pizzaname = \
 			//	PizzaController::strip_unwanted($a_pizzaname);
+
+
+			//
+			// XXX no res to models!
+			//
 			Pizza::add($res);
 			$res->redirect('/tsoha/menu');
 		}
@@ -109,27 +123,14 @@ class PizzaController extends BaseController {
                 $res->redirect('/tsoha/menu');
         }
 
-	public static function pizza($numero) {
-		$pizza_data = Pizza::pizza_numero($numero);
-		View::make('naytaid.html',
-			array('pizza_data'=>$pizza_data));
-
-	}
-	public static function get_id($numero) {
-		$numero = intval($numero);
-		$pizza_data = Pizza::ng_get_id($numero);
-		print "KALAA: " . $pizza_data->name;
-		View::make('naytaid.html',
-			array('pizza_data' => $pizza_data));
-	}
-
 	public static function add_templ() {
-		//if (!PizzaController::s_is_valid()) {
-		//	View::make('noauth.html');
-		//} else {
+		$user = PizzaController::s_auth();
+                //if (!$user->is_admin) {
+                //        View::make('errauth.html');
+                // else {
 			$data = Lisuke::get();
 			View::make('koosta.html', array('lisukkeet' => $data));
-		//}
+		///}
 	}
 
         public static function add_static_templ() {
@@ -137,6 +138,7 @@ class PizzaController extends BaseController {
 		if (!$user->is_admin) {
                 //if (!PizzaController::s_is_valid()) {
                         View::make('noauth.html');
+			exit();
                 } else {
                         $data = Lisuke::get();
                         View::make('koosta_staattinen.html', array('lisukkeet' => $data));

@@ -131,6 +131,9 @@ class Pizza extends BaseModel {
 	}
 
 
+	/*
+	 * Really questionable to pass in a $routes context..
+	 */
 	public static function add($res) {
         	$db = DB::connection();
                 //$p = tPizzaController::get_pizzas($db);
@@ -187,22 +190,6 @@ class Pizza extends BaseModel {
                // View::make('menu.html', array('pizzas'=>$p, 'now'=>$now));
 	}
 
-	private static function pizza_numero($id, $conn) {
-                $id = intval($id);
-                $sql = "SELECT DISTINCT staattiset_pizzat.id FROM staattiset_pizzat,s_ll,lisukkeet WHERE staattiset_pizzat.id=s_ll.pizza_id AND lisukkeet.id=s_ll.lisukkeen_id AND staattiset_pizzat.id=$id";
-                $result = array();
-                foreach ($conn->query($sql) as $row) {
-                       $id = $row[0];
-                       $result[$id] = array();
-                       $s1 = "SELECT lisukkeet.id AS lid,staattiset_pizzat.id AS sid,lisuke_nimi,lisuke_hinta,pizza_name FROM staattiset_pizzat,s_ll,lisukkeet WHERE lisukkeet.id=lisukkeen_id AND staattiset_pizzat.id=pizza_id AND staattiset_pizzat.id=$id ORDER BY lisukkeet.id";
-                                
-                        foreach($conn->query($s1) as $row2) {
-                                $result[$id][] = $row2;
-                        }
-                }
-                return ($result);
-       }
-
 
         public static function now() {
                 $conn = DB::connection();
@@ -214,25 +201,6 @@ class Pizza extends BaseModel {
                 }
                 return ($rv);
         }
-
-	public static function get_id($numero) {
-		$conn = DB::connection();
-		$id = BaseController::coerce_num($numero);
-		$sql = "SELECT DISTINCT staattiset_pizzat.id FROM staattiset_pizzat,s_ll,lisukkeet WHERE staattiset_pizzat.id=s_ll.pizza_id AND lisukkeet.id=s_ll.lisukkeen_id AND staattiset_pizzat.id=$id";
-		$result = array();
-		foreach ($conn->query($sql) as $row) {
-			$id = $row[0];
-			$result[$id] = array();
-			$s1 = "SELECT lisukkeet.id AS lid,staattiset_pizzat.id AS sid,lisuke_nimi,lisuke_hinta,pizza_name FROM staattiset_pizzat,s_ll,lisukkeet WHERE lisukkeet.id=lisukkeen_id AND staattiset_pizzat.id=pizza_id AND staattiset_pizzat.id=$id ORDER BY lisukkeet.id";
-
-			foreach($conn->query($s1) as $row2) {
-				$result[$id][] = $row2;
-			}
-		}
-		return ($result);
-
-
-	}
 
 }
 

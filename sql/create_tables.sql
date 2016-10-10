@@ -45,7 +45,8 @@ CREATE TABLE pending_orders (
 	po_id		INT PRIMARY KEY DEFAULT nextval('po_id_seq'),
 	user_id		VARCHAR(50) NOT NULL,
 	name		VARCHAR(50) NOT NULL,
-	address		VARCHAR(255) NOT NULL
+	address		VARCHAR(255) NOT NULL,
+	created_t	TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE pending_pizza (

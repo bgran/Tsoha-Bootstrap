@@ -119,10 +119,6 @@ class Orders extends BaseModel {
 		}
 		$rv[] = $p;
 		return $rv;
-
-		//$sql1 = "select orders.pizza_id,sum(lisukkeet.lisuke_hinta) from lisukkeet,s_ll,staattiset_pizzat,orders WHERE lisukkeet.id=s_ll.lisukkeen_id AND s_ll.pizza_id=staattiset_pizzat.id and orders.pizza_id=staattiset_pizzat.id GROUP BY orders.pizza_id ORDER BY orders.pizza_id";
-		//$sql2 = "select pizza_id,count(pizza_id) from orders group by pizza_id ORDER BY orders.pizza_id";
-
 	}
 
 	
