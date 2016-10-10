@@ -5,16 +5,20 @@ class OrderController extends BaseController {
 
 	public static function index() {
 		$orders = Order::get_id();
-		foreach ($orders => $obj) {
-
-		}
+		$objs = Orders::orders_report();
+		//var_dump($objs);
 		View::make('order/index.html', array(
-			"orders" => $orders));
+			"orders" => $orders,
+			'objs' => $objs));
 	}
 	public static function place_new_order($userid, $pizzaid, $res) {
 		$obj = Order::get_new($pizzaid);
 		$obj->add();
 		$res->redirect('/tsoha/menu');
+	}
+	public static function del_order() {
+		Orders::del();
+		Redirect::to("/menu");
 	}
 
 	
