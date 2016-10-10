@@ -40,3 +40,15 @@ CREATE TABLE orders (
 	pizza_id	INTEGER NOT NULL
 );
 
+CREATE SEQUENCE po_id_seq;
+CREATE TABLE pending_orders (
+	po_id		INT PRIMARY KEY DEFAULT nextval('po_id_seq'),
+	user_id		VARCHAR(50) NOT NULL,
+	name		VARCHAR(50) NOT NULL,
+	address		VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE pending_pizza (
+	pending_order	INT NOT NULL,
+	pizza_id	INT NOT NULL
+);

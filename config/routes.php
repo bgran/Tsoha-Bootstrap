@@ -97,4 +97,17 @@ $routes->get('/order/place/:userid/:pizzaid', function($userid, $pizzaid) use ($
 $routes->post('/order/del', function() {
 	OrderController::del_order();
 });
+$routes->get('/order/checkout_templ', function() {
+	OrderController::checkout_templ();
+});
+$routes->post('/order/checkout', function() use ($routes) {
+	OrderController::checkout($routes);
+});
+
+$routes->get('/order/tracking', function() {
+	OrderController::tracking();
+});
+$routes->get('/order/cancel/:id', function($id) use ($routes) {
+	OrderController::cancel($id, $routes);
+});
 ?>

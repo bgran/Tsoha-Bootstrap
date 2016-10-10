@@ -1,5 +1,10 @@
 <?php
-
+class tracking_s {
+	public $name;
+	public $address;
+	public $po_id;
+	public $pizzas = array();
+};
 class Orders extends BaseModel {
 	private $params = null;
 	private $res = null;
@@ -71,7 +76,56 @@ class Orders extends BaseModel {
 		$st = $db->prepare($sql);
 		$st->execute(array(session_id()));
 	}
+	public static function cancel($id) {
+		$user = BaseController::s_auth();
+		if (!$user->is_admin) {
+			return false;
+		} else {
+			$sql = "DELETE FROM pending_orders WHERE po_id=?";
+			$db = DB::connection();
+			$st = $db->prepare($sql);
+			$st->execute(array($id));
+		}
+	}
 
+	public static function all_orders_report() {
+		$sql = "select po_id,user_id,name,address,pizza_id FROM pending_orders,pending_pizza WHERE po_id=pending_order ORDER by po_id";
+
+		$rv = array();
+		$db = DB::connection();
+		$st = $db->prepare($sql);
+		$st->execute();
+		$state = true;
+		$prev = -1;
+		$p = null;
+		foreach($st->fetchAll() as $row) {
+			if ($row[0] != $prev) {
+				$prev = $row[0];
+				if ($state) {
+					$state = false;
+				} else {
+					$rv[] = $p;
+				}
+				$p = new tracking_s();
+				$p->name = $row[2];
+				$p->address = $row[3];
+				$p->po_id = $row[0];
+				//$p->pizzas[] = $row[4];
+				$p->pizzas[] = Pizza::ng_get_id($row[4]);
+			} else {
+				//$p->pizzas[] = $row[4];
+				$p->pizzas[] = Pizza::ng_get_id($row[4]);
+			}
+		}
+		$rv[] = $p;
+		return $rv;
+
+		//$sql1 = "select orders.pizza_id,sum(lisukkeet.lisuke_hinta) from lisukkeet,s_ll,staattiset_pizzat,orders WHERE lisukkeet.id=s_ll.lisukkeen_id AND s_ll.pizza_id=staattiset_pizzat.id and orders.pizza_id=staattiset_pizzat.id GROUP BY orders.pizza_id ORDER BY orders.pizza_id";
+		//$sql2 = "select pizza_id,count(pizza_id) from orders group by pizza_id ORDER BY orders.pizza_id";
+
+	}
+
+	
 }
 
 ?>

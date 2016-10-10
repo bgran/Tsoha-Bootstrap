@@ -21,6 +21,35 @@ class OrderController extends BaseController {
 		Redirect::to("/menu");
 	}
 
+	public static function checkout_templ() {
+		$objs = Orders::orders_report();
+		View::make('order/checkout_templ.html', array(
+			"objs" => $objs));
+
+	}
+
+	public static function checkout($res) {
+		$name = $res->request->post('u_name');
+		$address = $res->request->post('u_address');
+		$obj = Checkout::new_checkout($name, $address);
+		
+		$obj->save();
+		Redirect::to('/');
+	}
+
+	public static function tracking() {
+		$vals = Orders::all_orders_report();
+		View::make('order/tracking.html',  array(
+			'vals' => $vals));
+
+	}
+	public static function cancel($id, $res) {
+		Orders::cancel($id);
+		$res->redirect('/tsoha/order/tracking');
+		//Redirect::to('/order/tracking');
+	}
+
+
 	
 
 

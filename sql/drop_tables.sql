@@ -12,3 +12,8 @@ DROP TABLE temp_pizza;
 DROP TABLE a_ll;
 
 DROP TABLER orders;
+
+DELETE TABLE pending_orders;
+DELETE SEQUENCE po_id_seq;
+DELETE TABLE pending_pizza;
+
