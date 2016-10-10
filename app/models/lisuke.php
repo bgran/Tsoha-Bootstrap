@@ -3,6 +3,7 @@
 class Lisuke extends BaseModel {
 	private $params = null;
 	private $res = null;
+	private $db = null;
 
 
 	public $name, $price;
@@ -14,11 +15,12 @@ class Lisuke extends BaseModel {
                 parent::__construct($attributes);
 		//$this->params = $attributes;
 		//$this->res = $_res;
+		$this->db = DB::connection();
         }       	
 
-	public static function get_id($id) {
+	public static function get_id($id, $db) {
 		$id = intval($id);
-		$db = DB::connection();
+		//$db = DB::connection();
 		$sql = "SELECT id,lisuke_nimi,lisuke_hinta FROM lisukkeet WHERE id=:id ORDER BY id";
 		$st = $db->prepare($sql);
 		$st->execute(array(
@@ -31,17 +33,17 @@ class Lisuke extends BaseModel {
 
 		return ($obj);
 	}
-	public static function get_by_pizza_id($id) {
+	public static function get_by_pizza_id($id, $db) {
 		$id = intval($id);
 		$rv = array();
-		$db = DB::connection();
-			$sql = "SELECT lisukkeet.id AS id FROM lisukkeet,s_ll,staattiset_pizzat WHERE lisukkeet.id=s_ll.lisukkeen_id AND s_ll.pizza_id=staattiset_pizzat.id AND pizza_id=:id";
+		//$db = DB::connection();
+		$sql = "SELECT lisukkeet.id AS id FROM lisukkeet,s_ll,staattiset_pizzat WHERE lisukkeet.id=s_ll.lisukkeen_id AND s_ll.pizza_id=staattiset_pizzat.id AND pizza_id=:id";
 		$st = $db->prepare($sql);
 		$st->execute(array(
 			':id' => $id));
 		$arr = $st->fetchAll();
 		foreach ($arr as $row) {
-			$obj = Lisuke::get_id($row['id']);
+			$obj = Lisuke::get_id($row['id'], $db);
 			$rv[$row['id']] = $obj;
 			//array_push($rv, $obj);
 		}
@@ -50,7 +52,7 @@ class Lisuke extends BaseModel {
 
 
 	public static function all() {
-		$db = DB::connection();
+		$db = $this->db;  //DB::connection();
 		$sql = "SELECT id,lisuke_nimi,lisuke_hinta FROM lisukkeet ORDER BY id";
 		$result = array();
 		foreach($db->query($sql) as $row) {
@@ -84,7 +86,7 @@ class Lisuke extends BaseModel {
 	}
 
 	public function ng_add() {
-		$db = DB::connection();
+		$db = $this->db; //DB::connection();
 		$sql = "INSERT INTO lisukkeet(lisuke_nimi, lisuke_hinta) VALUES(:nimi, :hinta)";
 		$st = $db->prepare($sql);
 		$st->execute(array(
@@ -93,7 +95,7 @@ class Lisuke extends BaseModel {
 
 
 	public static function now() {
-		$db = DB::connection();
+		$db = $this->db; //DB::connection();
 		$sql = "SELECT now()";
 		$rv = '';
 		foreach ($conn->query($sql) as $row) {	
@@ -103,7 +105,7 @@ class Lisuke extends BaseModel {
 		return ($rv);
 	}
 	public static function num_lisukkeet() {
-		$db = DB::connection();
+		$db = $this->db; //DB::connection();
 		$sql = "SELECT MAX(id)+1 FROM lisukkeet";
 	 	$st = $db->prepare($sql);
 		$st->execute();

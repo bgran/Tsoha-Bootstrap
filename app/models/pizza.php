@@ -81,9 +81,9 @@ class Pizza extends BaseModel {
 	}
 
 
-	private function populate_lisuke() {
-		$db = DB::connection();
-		$this->lisukkeet = Lisuke::get_by_pizza_id($this->id);
+	private function populate_lisuke($db) {
+		//$db = DB::connection();
+		$this->lisukkeet = Lisuke::get_by_pizza_id($this->id, $db);
 		foreach($this->lisukkeet as $obj) {
 			$this->price += $obj->price;
 			//print "<br>obj-price" . $obj->price;
@@ -91,8 +91,8 @@ class Pizza extends BaseModel {
 			//print "<br><br>";
 		}
 	}
-	public static function ng_get_id($id) {
-		$db = DB::connection();
+	public static function ng_get_id($id, $db) {
+		//$db = DB::connection();
 		$sql = "SELECT id,pizza_name FROM staattiset_pizzat WHERE id=:id";
 		$st = $db->prepare($sql);
 		//$st->bindParam(':id', $id, PDO::PARAM_INT);
@@ -102,7 +102,7 @@ class Pizza extends BaseModel {
 		$obj = new Pizza(array());
 		$obj->name = $ar['pizza_name'];
 		$obj->id = $ar['id'];
-		$obj->populate_lisuke();
+		$obj->populate_lisuke($db);
 		return $obj;
 	}
 	public static function ng_get_all() {
@@ -115,7 +115,7 @@ class Pizza extends BaseModel {
 			$_id = $row['id'];
 			//print "kala: " . $_id;
 			//$res[$_id] = Pizza::ng_get_id($_id);
-			array_push($res, Pizza::ng_get_id($_id));
+			array_push($res, Pizza::ng_get_id($_id, $db));
 		}
 		return $res;
 	}

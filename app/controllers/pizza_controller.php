@@ -9,11 +9,11 @@ class PizzaController extends BaseController {
 		//$pizzas = array();
 		//$pizzas = Pizza::get_pizzas_id();
 		//$lisuke = Lisuke::all();
-		$tmp = new TempPizza(array());
-		$tmp->populate_from_db(session_id());
-		View::make('uusmenu.html', array('pizza_data'=>$pizzas,
+		//$tmp = new TempPizza(array());
+		//$tmp->populate_from_db(session_id());
+		View::make('uusmenu.html', array('pizza_data'=>$pizzas));
 			//'lisuke'=>$lisuke,
-			"tmp" => $tmp->lisukkeet));
+			//"tmp" => $tmp->lisukkeet));
 	}
 
 	public static function pizza_crud_template($res) {
@@ -41,7 +41,7 @@ class PizzaController extends BaseController {
 		}
 
 
-		$db = DB::connection();
+		//$db = DB::connection();
 
 		$op = null;
 		$op_del = $res->request->post('op_delete');
@@ -141,7 +141,7 @@ class PizzaController extends BaseController {
 	public static function index() {
 		//$user = PizzaController::s_auth();
 		//$bauth = $g_user->is_valid();
-		$db = DB::connection();
+		//$db = DB::connection();
 		$now = Pizza::now();
 		$authcreds = PizzaController::auth_creds();
 		View::make('pizza.html', array('now' => $now));
