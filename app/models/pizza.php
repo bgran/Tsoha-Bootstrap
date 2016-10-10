@@ -114,7 +114,7 @@ class Pizza extends BaseModel {
 		foreach ($st->fetchAll() as $row) {
 			$_id = $row['id'];
 			//print "kala: " . $_id;
-			//$res[$_id] = Pizza::ng_get_id($_id);
+			//$res[$_id] = Pizza::ng_get_id($_id, $db);
 			array_push($res, Pizza::ng_get_id($_id, $db));
 		}
 		return $res;

@@ -20,8 +20,9 @@ class PizzaController extends BaseController {
 		$user = PizzaController::s_auth();
 		$pizza_id = $res->request->get('a_pizzaid');
 
-		$pizza = Pizza::ng_get_id($pizza_id);
-		$lis = Lisuke::all();
+		$db = DB::connection();
+		$pizza = Pizza::ng_get_id($pizza_id, $db);
+		$lis = Lisuke::all($db);
 		
 		if (!$user->is_admin) {
 			View::make('crud_err.html');
@@ -41,7 +42,7 @@ class PizzaController extends BaseController {
 		}
 
 
-		//$db = DB::connection();
+		$db = DB::connection();
 
 		$op = null;
 		$op_del = $res->request->post('op_delete');
@@ -56,7 +57,7 @@ class PizzaController extends BaseController {
 		if ($op == "delete") {
 			$pizza_id = $res->request->post('pizza_id');
 			$pizza_id = intval($pizza_id);
-			$pizza = Pizza::ng_get_id($pizza_id);
+			$pizza = Pizza::ng_get_id($pizza_id, $db);
 			$pizza->delete();
 		} else {
 			/*
@@ -65,7 +66,7 @@ class PizzaController extends BaseController {
 			$pizza_id = $res->request->post('pizza_id');
 			$pizza_name = $res->request->post('a_pizzaname');
           	    	$pizza_id = intval($pizza_id);
-			$pizza = Pizza::ng_get_id($pizza_id);
+			$pizza = Pizza::ng_get_id($pizza_id, $db);
 			$pizza->name = $pizza_name;
 			$pizza->save();
 
@@ -164,7 +165,8 @@ class PizzaController extends BaseController {
 
         public static function get_id($numero) {
                 $numero = intval($numero);
-                $pizza_data = Pizza::ng_get_id($numero);
+		$db = DB::connection();
+                $pizza_data = Pizza::ng_get_id($numero, $db);
                 View::make('naytaid.html',
                         array('pizza_data' => $pizza_data));
         }

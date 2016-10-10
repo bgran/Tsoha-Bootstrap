@@ -51,8 +51,8 @@ class Lisuke extends BaseModel {
 	}
 
 
-	public static function all() {
-		$db = $this->db;  //DB::connection();
+	public static function all($db) {
+		//$db = $this->db;  //DB::connection();
 		$sql = "SELECT id,lisuke_nimi,lisuke_hinta FROM lisukkeet ORDER BY id";
 		$result = array();
 		foreach($db->query($sql) as $row) {

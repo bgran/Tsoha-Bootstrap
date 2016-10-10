@@ -29,7 +29,7 @@ class Order extends BaseModel {
 			$pizza_id = $row['pizza_id'];
 			$obj = new Order(array());
 			$obj->user = $user_id;
-			$obj->order = Pizza::ng_get_id($pizza_id);
+			$obj->order = Pizza::ng_get_id($pizza_id, $db);
 			//$obj->price += $obj->order->price;
 			$rv[] = $obj;
 		}

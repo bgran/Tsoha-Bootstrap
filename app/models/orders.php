@@ -111,10 +111,10 @@ class Orders extends BaseModel {
 				$p->address = $row[3];
 				$p->po_id = $row[0];
 				//$p->pizzas[] = $row[4];
-				$p->pizzas[] = Pizza::ng_get_id($row[4]);
+				$p->pizzas[] = Pizza::ng_get_id($row[4], $db);
 			} else {
 				//$p->pizzas[] = $row[4];
-				$p->pizzas[] = Pizza::ng_get_id($row[4]);
+				$p->pizzas[] = Pizza::ng_get_id($row[4], $db);
 			}
 		}
 		$rv[] = $p;

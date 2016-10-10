@@ -16,7 +16,8 @@ class Report extends BaseModel {
         }
 
 	public static function gen($pizza_id, $c, $price_) {
-		$pizza = Pizza::ng_get_id($pizza_id);
+		$db = DB::connection();
+		$pizza = Pizza::ng_get_id($pizza_id, $db);
 		$obj = new Report(array());
 		$obj->count = $c;
 		$obj->price = $price_;
@@ -38,7 +39,7 @@ class Report extends BaseModel {
 			$pizza_id = $row['pizza_id'];
 			$obj = new Order(array());
 			$obj->user = $user_id;
-			$obj->order = Pizza::ng_get_id($pizza_id);
+			$obj->order = Pizza::ng_get_id($pizza_id, $db);
 			//$obj->price += $obj->order->price;
 			$rv[] = $obj;
 		}
