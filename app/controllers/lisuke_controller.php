@@ -26,6 +26,7 @@ class LisukeController extends BaseController {
 		if (!$user->is_admin) {
 			View::make('errauth.html');
 			exit();
+		}
 		$data = Lisuke::get();
 		View::make('lisaalisuke.html', array(
 			'lisukkeet' => $data));

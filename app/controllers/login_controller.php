@@ -19,8 +19,6 @@ class LoginController extends BaseController {
 		$attr = array();
 		$user = new User($attr);
 		$user->populate_user_from_db($a_username);
-		print "user-password: ".$user->password;
-		print "a_password: " . $a_password;
 		if ($user->password == $a_password) {
 			$_SESSION["auth"] = $user->username;
 		} else {
@@ -31,7 +29,6 @@ class LoginController extends BaseController {
 	}
 
 	public function _is_valid() {
-		//print "$_SESSION";
 		if ($_SESSION) {
 			return true;
 		} else {

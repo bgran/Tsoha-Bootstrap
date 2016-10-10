@@ -47,21 +47,16 @@ class PizzaController extends BaseController {
 		$op_del = $res->request->post('op_delete');
 		$op_save = $res->request->post('op_save');
 		if ($op_del != null) {
-			print "delete";
 			$op = "delete";
 		} elseif ($op_save) { 
-			print "save";
 			$op = "save";
 		} else {
-			print "jotain muuta";
 		}
 
 		if ($op == "delete") {
-			print "delete selected<br><br>";
 			$pizza_id = $res->request->post('pizza_id');
 			$pizza_id = intval($pizza_id);
 			$pizza = Pizza::ng_get_id($pizza_id);
-			print "pizza_id: " . $pizza_id . "<br><br>";
 			$pizza->delete();
 		} else {
 			/*
@@ -80,14 +75,11 @@ class PizzaController extends BaseController {
 		 	 */
 		 	$arr = array();
 			$i = Lisuke::num_lisukkeet();		
-			print "ja lusukkeita on: $i<br><br>";
 			for ($j = 0; $j < $i; $j++) {
 				$temper = $res->request->post("a_lisuke_$j");
 				if ($temper == null) {
-					print "Dropping $j<br>";
 					$pizza->drop_lisuke_id($j);
 				} else {
-					print "Adding $j<br>";
 					$pizza->add_lisuke_id($j);
 				}
 			}
@@ -149,7 +141,6 @@ class PizzaController extends BaseController {
 	public static function index() {
 		//$user = PizzaController::s_auth();
 		//$bauth = $g_user->is_valid();
-		//print "<br>$bauth</br>";
 		$db = DB::connection();
 		$now = Pizza::now();
 		$authcreds = PizzaController::auth_creds();
@@ -162,7 +153,6 @@ class PizzaController extends BaseController {
 		$pizzas = Pizza::get_pizzas_id();
 		$lisuke = Lisuke::all();
 		
-		//print "dfela_anon static";
 		$tmp = new TempPizza(array());
 		$tmp->del_anon_pizza();
 		$res->redirect('/tsoha/menu');

@@ -108,7 +108,6 @@ class Lisuke extends BaseModel {
 	 	$st = $db->prepare($sql);
 		$st->execute();
 		$rv = $st->fetch();
-		print "kalaa: " . $rv[0];
 		return $rv[0];
 	}
 }
