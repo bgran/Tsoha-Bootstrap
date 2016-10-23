@@ -32,8 +32,10 @@
             <span class="icon-bar"></span>
           </button>
           <!-- Sovelluksen nimi -->
-          <a class="navbar-brand" href="{{base_path}}">Pizza-Service</a> ({{ user.username }})
+          <a class="navbar-brand" href="{{base_path}}">Pizza-Service</a> ({{ user.username }}) &nbsp;&brvbar;&nbsp; <a href="/tsoha/menu">Linkki menuseen</a> &nbsp;&brvbar;&nbsp; {% if user.is_admin %}<a href="/tsoha/lisuke/add_templ">Lisaa lisuke</a> &nbsp;&brvbar;&nbsp; <a href="/tsoha/menu/add_static_templ">Koosta nimellinen pizza</a> &nbsp;&brvbar;&nbsp; <a href="/tsoha/order/tracking">Seuraa tilauksia</a> &nbsp;&brvbar;&nbsp;  <a href="/tsoha/login/logout">Kirjaudu ulos</a>{% else %}<a href="/tsoha/login">Sisaankirjautumiseen</a>{% endif %}
         </div>
+
+
 
         <div class="collapse navbar-collapse" id="navigation">
           <!--<ul class="nav navbar-nav"> -->

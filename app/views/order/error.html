@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+Virhe syotteessa:<br><br>
+{% for err in errors %}
+
+Virhe: {{err}}<br>
+
+{% endfor %}
+
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / virhe
+{% endblock %}
+

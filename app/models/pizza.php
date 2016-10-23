@@ -7,7 +7,28 @@ class Pizza extends BaseModel {
 	public $lisukkeet = array();
 	public function __construct($attributes = null) {
                 parent::__construct($attributes);
+		$this->validators = array ('validate_id', 'validate_name');
         }
+
+	public function validate_id() {
+		$errors = array();
+		if (intval($this->id) >= 0) {
+			// correct
+		} else {
+			$errors[] = "Id ei ole numero";
+		}
+		return ($errors);
+	}
+	public function validate_name() {
+		$errors = array();
+		if (strlen($this->name) > 20) {
+			$errors[] = "Nimen pituus on liian pitka";
+		}
+		return ($errors);
+	}
+	public function validate_lisukeet() {
+		$errors = array();
+	}
 
 	public static function all() {
 		$db = DB::connection();
@@ -38,8 +59,7 @@ class Pizza extends BaseModel {
 	}
 
 	public function save() {
-		$sql = "UPDATE staattiset_pizzat SET pizza_name=:pizzaname WHERE
- id=:id";
+		$sql = "UPDATE staattiset_pizzat SET pizza_name=:pizzaname WHERE id=:id";
 		$db = DB::connection();
 		$st = $db->prepare($sql);
 		$st->execute(array(
@@ -135,6 +155,7 @@ class Pizza extends BaseModel {
 	 * Really questionable to pass in a $routes context..
 	 */
 	public static function add($res) {
+		$err = array();
         	$db = DB::connection();
                 //$p = tPizzaController::get_pizzas($db);
                 //$now = tPizzaController::get_now($db);
@@ -151,6 +172,17 @@ class Pizza extends BaseModel {
                 //$new_pizza = $s_v[0];
 
                 $a_pizzaname = $res->request->post('a_pizzaname');
+		if (empty($a_pizzaname)) {
+			$err[] = "Pizzan nimi on tyhja";
+		}
+		if (strlen($a_pizzaname) > 25) {
+			$err[] = "Pizzan nimi liian pitka";
+		}
+		if (!empty($err) ) {
+			View::make('pizza_err.html', array(
+				'errors' => $err));
+			exit();
+		}
 		$a_pizzaname = BaseController::strip_unwanted(
 			$a_pizzaname);
                 //print "a_pizzaname: " . $a_pizzaname;
@@ -172,10 +204,21 @@ class Pizza extends BaseModel {
                  }
                  //print "num_id: " . $num_id . "<br>";
 
+		 $err2 = array();
                  for ($i= 0; $i<$num_id ;$i++) {
                  	$tmp = $res->request->post('a_lisuke_'.$i);
+
                         if ($tmp == null) continue;
-                        else {
+			$t2 = intval($tmp);
+			if ($t2 < 0) {
+				$err2[] = "lisukeken id on pienempi kuin 0";
+			}
+			if (!empty($err2)) {
+				View::make('pizza_err.html', array(
+					'errors' => $err2));
+				exit();
+
+                         } else {
                   	      // $i points to 
                               $s_pizza = "INSERT INTO s_ll (pizza_id, lisukkeen_id) VALUES(:pizza_id, :lisukkeen_id)";
                               $st = $db->prepare($s_pizza);   
@@ -184,10 +227,15 @@ class Pizza extends BaseModel {
                               	"lisukkeen_id" => $i));
                         }
 		}
-
-                $db->commit();
-
-               // View::make('menu.html', array('pizzas'=>$p, 'now'=>$now));
+		if (!empty ($err2)) {
+			View::make('pizza_err.html', array(
+				'errors' => $err2));
+			$db->rollback();
+			exit();
+		} else {
+                	$db->commit();
+		}
+                // View::make('menu.html', array('pizzas'=>$p, 'now'=>$now));
 	}
 
 

@@ -11,6 +11,7 @@ class PizzaController extends BaseController {
 		//$lisuke = Lisuke::all();
 		//$tmp = new TempPizza(array());
 		//$tmp->populate_from_db(session_id());
+		Kint::dump($pizzas);
 		View::make('uusmenu.html', array('pizza_data'=>$pizzas));
 			//'lisuke'=>$lisuke,
 			//"tmp" => $tmp->lisukkeet));
@@ -59,6 +60,12 @@ class PizzaController extends BaseController {
 			$pizza_id = intval($pizza_id);
 			$pizza = Pizza::ng_get_id($pizza_id, $db);
 			$pizza->delete();
+			$err = $pizza->errors();
+			if ($err) {
+				View::make('pizza_err.html', array(
+					'errors' => $err));
+				exit();
+			}
 		} else {
 			/*
 			 * First edit name...
@@ -67,6 +74,12 @@ class PizzaController extends BaseController {
 			$pizza_name = $res->request->post('a_pizzaname');
           	    	$pizza_id = intval($pizza_id);
 			$pizza = Pizza::ng_get_id($pizza_id, $db);
+			$err = $pizza->errors();
+			if ($err) {
+				View::make('pizza_err.html', array(
+					'errors' => $err));
+				exit();
+			}
 			$pizza->name = $pizza_name;
 			$pizza->save();
 
@@ -76,8 +89,15 @@ class PizzaController extends BaseController {
 		 	 */
 		 	$arr = array();
 			$i = Lisuke::num_lisukkeet();		
+			$e = array();
 			for ($j = 0; $j < $i; $j++) {
 				$temper = $res->request->post("a_lisuke_$j");
+				$i = intval($temper);
+				if ($i < 0) {
+					$e[] = "lisukeen id on virheellinen";
+					View::make('pizza_err.html', array(
+						'errors' => $err));
+				}
 				if ($temper == null) {
 					$pizza->drop_lisuke_id($j);
 				} else {

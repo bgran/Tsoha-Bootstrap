@@ -7,11 +7,33 @@ class LisukeController extends BaseController {
 			View::make('errauth.html');
 			exit();
 		}
+
+		$a_lisukename = $res->request->post('a_lisukename');
+		$a_lisukehinta = intval($res->request->post('a_lisukehinta'));
+
+		$err = array();
+
+		if ($a_lisukename == null) {
+			$err[] = "Lisukkeen nimi on tyhja";
+		}
+		if (strlen($a_lisukename) > 254) {
+			$err[] = "Lisukkeen nimen pituus liian pitka";
+		}
+		if ($a_lisukehinta < 1) {
+			$err[] = "Lisukkeen hinta on alle 1";
+		}
+
+		if (!empty($err)) {
+			View::make('lisuke_err.html', array(
+				'errors' => $err));
+			exit();
+		}
+
 		$params = array();
 		$lisuri = BaseController::strip_unwanted(
-			$res->request->post('a_lisukename'));
+			$a_lisukename);
 		$lishinta = BaseController::strip_unwanted(
-			$res->request->post('a_lisukehinta'));
+			$a_lisukehinta);
 
 		$lisuke = new Lisuke(array());
 		$lisuke->name = $lisuri;

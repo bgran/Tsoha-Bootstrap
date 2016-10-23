@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% foreach err in errors %}
+
+	Error: {{err.desc}}<br>
+
+{% endforeach %}
+
+
+{% endblock %}
+
+{% block title %}
+Pizza-Service / virhe
+{% endblock %}
+

@@ -8,8 +8,8 @@
         $config = $connection_config['config'];
 	//$config['resource'] = "pgsql:";
 	//$config['database'] = "testi";
-	$config['username'] = "";
-	$config['password'] = "";
+	$config['username'] = "USER";
+	$config['password'] = "PASSWRD";
 	//foreach ($config as $key => $value) {
 	//	print "$key: $value";
 	///	print "<br>";
@@ -21,7 +21,7 @@
             // Alustetaan PDO
             if(isset($config['username'])){
               //$connection = new PDO($config['resource'], $config['username'], $config['password']);
-		$connection = new PDO($dsn, '', '');
+		$connection = new PDO($dsn, 'USER', 'PASSWORD');
             }else{
               $connection = new PDO($config['resource']);
             }

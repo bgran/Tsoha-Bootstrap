@@ -1,5 +1,5 @@
 <?php
-
+	require_once '/home/bgran/tsoha/deploy/vendor/raveren/kint/Kint.class.php';
   class BaseController{
 
 	public static  function s_is_valid() {

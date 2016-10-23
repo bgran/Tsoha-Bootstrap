@@ -12,22 +12,6 @@
         DB::test_connection();
   });
 
-//$routes->get('/koosta', function () use ($routes) {
-//	tPizzaController::koosta();
-//});
-//$routes->post('/op_uusipizza', function () use ($routes) {
-//	tPizzaController::op_uusipizza($routes);
-//});
-//$routes->get('/uusilisuke', function () use ($routes) {
-//	tPizzaController::uusilisuke($routes);
-//});
-//$routes->post('/op_uusilisuke', function () use ($routes) {
-//        tPizzaController::op_uusilisuke($routes);
-//});
-//$routes->get('/uusmenu', function () use ($routes) {
-//	PizzaController::pizzas();
-//});
-
 
 /*
  * Pizzoja

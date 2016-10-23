@@ -2,7 +2,6 @@
 class OrderController extends BaseController {
 
 
-
 	public static function index() {
 		$orders = Order::get_id();
 		$objs = Orders::orders_report();
@@ -31,6 +30,27 @@ class OrderController extends BaseController {
 		$name = $res->request->post('u_name');
 		$address = $res->request->post('u_address');
 		$obj = Checkout::new_checkout($name, $address);
+		//$errs = $obj->errors();
+		$errs = array();
+
+		if (empty($name)) {
+			$errs[] = "Nimi-kentta on tyhja";
+		}
+		if (strlen($name) > 49) {
+			$errs[] = "Nimi-kentta liian pitka";
+		}
+		if (empty($address)) {
+			$errs[] = "Osoite-kentta on tyhja";
+		}
+		if (strlen($address) > 254) {
+			$errs[] = "Osoite-kentta on liian pitka";
+		}
+		
+		if (!empty($errs)) {
+			View::make('order/error.html', array(
+				'errors' => $errs));
+			exit();
+		}
 		
 		$obj->save();
 		Redirect::to('/');
