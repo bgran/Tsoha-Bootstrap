@@ -11,7 +11,7 @@ class PizzaController extends BaseController {
 		//$lisuke = Lisuke::all();
 		//$tmp = new TempPizza(array());
 		//$tmp->populate_from_db(session_id());
-		Kint::dump($pizzas);
+		//Kint::dump($pizzas);
 		View::make('uusmenu.html', array('pizza_data'=>$pizzas));
 			//'lisuke'=>$lisuke,
 			//"tmp" => $tmp->lisukkeet));
