@@ -23,13 +23,6 @@
   }
 
 
-  // Luodaan uusi tai palautetaan olemassaoleva sessio
- // if(session_id() == '') {
- //   session_start();
- // }
-  // Login handling.
-  //$g_user = new User(array());
-
   // Asetetaan vastauksen Content-Type-otsake, jotta ääkköset näkyvät normaalisti
   header('Content-Type: text/html; charset=utf-8');
 
