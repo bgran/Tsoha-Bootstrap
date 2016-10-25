@@ -197,7 +197,7 @@ class Pizza extends BaseModel {
                 $vals = array();
 
                 $num_id = 0;
-                $sql = "SELECT max(id) FROM lisukkeet";
+                $sql = "SELECT max(id)+1 FROM lisukkeet";
                 foreach ($db->query($sql) as $row) {
                        $num_id = $row[0];
                        break;

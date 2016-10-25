@@ -57,7 +57,7 @@ class Lisuke extends BaseModel {
 		$result = array();
 		foreach($db->query($sql) as $row) {
 			$_id = $row['id'];
-			$result[] = Lisuke::get_id($_id);
+			$result[] = Lisuke::get_id($_id, $db);
 		}
 		return $result;
 	}
