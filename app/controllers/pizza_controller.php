@@ -87,23 +87,38 @@ class PizzaController extends BaseController {
 			/*
 		 	 * Then handle lisukeparams.
 		 	 */
+			$k = array();
 		 	$arr = array();
-			$i = Lisuke::num_lisukkeet();		
+			$i = Lisuke::num_lisukkeet() + 1;		
+			//Kint::dump($i);
+		
 			$e = array();
-			for ($j = 0; $j < $i; $j++) {
+			$j = 0;
+			for (; $j < $i; $j++) {
+				//print "$j <br><br>";
 				$temper = $res->request->post("a_lisuke_$j");
-				$i = intval($temper);
-				if ($i < 0) {
+				$ti = intval($temper);
+				if ($ti < 0) {
 					$e[] = "lisukeen id on virheellinen";
 					View::make('pizza_err.html', array(
 						'errors' => $err));
+					exit();
 				}
+				//Kint::dump($temper);
 				if ($temper == null) {
+					//print "temper==null: $j";
 					$pizza->drop_lisuke_id($j);
+					//$k[] = "drop $j";
 				} else {
+					//print "temper != null: $j";
 					$pizza->add_lisuke_id($j);
+					//$k[] = "add $j";
 				}
 			}
+			//Kint::dump($j);
+			//View::make('pizza_err.html', array(
+			//	"errors" => $k));
+			//exit();
 		}
 
 		$res->redirect('/tsoha/menu');

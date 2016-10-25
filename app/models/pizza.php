@@ -90,14 +90,13 @@ class Pizza extends BaseModel {
 	}
 
 	public function add_lisuke_id($i) {
-		if ($this->lisuke_exists($i)) {
-
-		} else {
+		//if ($this->lisuke_exists($i)) {
+		//} else {
 			$db = DB::connection();
 			$sql = "INSERT INTO s_ll(pizza_id, lisukkeen_id) VALUES(:pid, :lid)";
 			$st = $db->prepare($sql);
 			$st->execute(array(":pid" => $this->id, ':lid' => $i));
-		}
+		//}
 	}
 
 
@@ -154,7 +153,7 @@ class Pizza extends BaseModel {
 	/*
 	 * Really questionable to pass in a $routes context..
 	 */
-	public static function add($res) {
+	public static function bork__add($res) {
 		$err = array();
         	$db = DB::connection();
                 //$p = tPizzaController::get_pizzas($db);
@@ -216,16 +215,16 @@ class Pizza extends BaseModel {
 			if (!empty($err2)) {
 				View::make('pizza_err.html', array(
 					'errors' => $err2));
+				$db->rollback();
 				exit();
 
-                         } else {
-                  	      // $i points to 
-                              $s_pizza = "INSERT INTO s_ll (pizza_id, lisukkeen_id) VALUES(:pizza_id, :lisukkeen_id)";
-                              $st = $db->prepare($s_pizza);   
-                              $st->execute(array(
-                              	"pizza_id" => $new_pizza,
-                              	"lisukkeen_id" => $i));
-                        }
+                         }
+                  	 // $i points to 
+                         $s_pizza = "INSERT INTO s_ll (pizza_id, lisukkeen_id) VALUES(:pizza_id, :lisukkeen_id)";
+                         $st = $db->prepare($s_pizza);   
+                         $st->execute(array(
+                         	"pizza_id" => $new_pizza,
+                         	"lisukkeen_id" => $i));
 		}
 		if (!empty ($err2)) {
 			View::make('pizza_err.html', array(
