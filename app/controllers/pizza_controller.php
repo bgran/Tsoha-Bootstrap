@@ -36,7 +36,7 @@ class PizzaController extends BaseController {
 		}
 	}
 	public static function pizza_crud($res) {
-		$user = PizzaContoller::s_auth();
+		$user = PizzaController::s_auth();
 		if (!$user->is_admin) {
 			View::make('autherr.html');
 			exit();

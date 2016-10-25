@@ -105,7 +105,7 @@ class Lisuke extends BaseModel {
 		return ($rv);
 	}
 	public static function num_lisukkeet() {
-		$db = $this->db; //DB::connection();
+		$db = DB::connection();
 		$sql = "SELECT MAX(id)+1 FROM lisukkeet";
 	 	$st = $db->prepare($sql);
 		$st->execute();
