@@ -80,6 +80,13 @@ class PizzaController extends BaseController {
 					'errors' => $err));
 				exit();
 			}
+			if (strlen($pizza_name) == 0) {
+				$e = array();
+				$e[] = "Pizzan nimi on tyhja";
+				View::make('pizza_err.html', array(
+					'errors' => $e));
+				exit();
+			}
 			$pizza->name = $pizza_name;
 			$pizza->save();
 
