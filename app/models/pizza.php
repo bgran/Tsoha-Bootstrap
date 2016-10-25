@@ -153,7 +153,7 @@ class Pizza extends BaseModel {
 	/*
 	 * Really questionable to pass in a $routes context..
 	 */
-	public static function bork__add($res) {
+	public static function add($res) {
 		$err = array();
         	$db = DB::connection();
                 //$p = tPizzaController::get_pizzas($db);
